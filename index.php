@@ -79,6 +79,8 @@ function printResult($result) { //prints results from a select statement
 function connectToDB() {
     global $db_conn;
 
+    // create a credential.php file with the following line: 
+    // $db_conn = OCILogon("ora_CWL", "aXXXXXXXX", "dbhost.students.cs.ubc.ca:1522/stu");
     include "credential.php";
 
     if ($db_conn) {
