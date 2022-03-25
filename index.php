@@ -34,12 +34,26 @@ include "functions.php";
 echo "
     <html>
         <head>
+            <!-- Required meta tags -->
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+        
+            <!-- Bootstrap CSS -->
+            <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        
             <title>CPSC 304 Project</title>
             <link rel='stylesheet' href='style.css'>
         </head>
 
         <body>
-            <div id='header'>Olympic Games Database</div>
+            <nav class='navbar navbar-dark bg-dark justify-content-between'>
+                <a class='navbar-brand' href='#'>
+                    <img src='logo.png' height='30' class='d-inline-block align-top' alt=''> Olympic Games Database
+                </a>
+                <form class='form-inline my-2 my-lg-0' method='POST' action='index.php'>
+                    <input class='btn btn-outline-warning my-2 my-sm-0' type='submit' value='Reset Database' name='reset'>
+                </form>
+            </nav>
             <div id='content'>
 ";
 
@@ -91,46 +105,50 @@ if (connectToDB()) {
     disconnectFromDB();
 }
 
-// show reset database button
-echo "
-    <br><br>
-    <form method='POST' action='index.php'>
-        Click here to reset the database to initial state: 
-        <input type='submit' value='Reset Database' name='reset'>
-    </form>
-    <br><br>
-";
-
 // country queries
 echo "
-    <hr>
+    <div class='card text-center'>
+        <div class='card-header'>Country Queries</div>
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col'>
+                    <h5 class='card-title'>Add country</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='medal count' name='medalCount'>
+                        </div>
+                        <input type='submit' value='Add' name='addCountry' class='btn btn-primary'>
+                    </form>
+                </div>
 
-    <div class='section-title'><b>Country Queries</b></div>
+                <div class='col'>
+                    <h5 class='card-title'>Update medal count</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='new medal count' name='medalCount'>
+                        </div>
+                        <input type='submit' value='Update' name='updateMedalCount' class='btn btn-primary'>
+                    </form>
+                </div>
 
-    <div class='query'>
-        Add Country<br><br>
-        <form method='POST' action='index.php'>
-            Country Name: <input type='text' name='countryName'><br><br>
-            Medal Count: <input type='text' name='medalCount'><br><br>
-            <input type='submit' value='Add' name='addCountry'></p>
-        </form>
-    </div>
-
-    <div class='query'>
-        Update Medal Count<br><br>
-        <form method='POST' action='index.php'>
-            Country Name: <input type='text' name='countryName'><br><br>
-            New Medal Count: <input type='text' name='medalCount'><br><br>
-            <input type='submit' value='Update' name='updateMedalCount'></p>
-        </form>
-    </div>
-
-    <div class='query'>
-        Delete Country<br><br>
-        <form method='POST' action='index.php'>
-            Country Name: <input type='text' name='countryName'><br><br><br><br>
-            <input type='submit' value='Delete' name='deleteCountry'></p>
-        </form>
+                <div class='col'>
+                    <h5 class='card-title'>Delete country</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                        </div>
+                        <br><br>
+                        <input type='submit' value='Delete' name='deleteCountry' class='btn btn-primary'>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 ";
 
@@ -147,7 +165,7 @@ echo "
 // footer
 echo "
             </div>
-            <div id='footer'>© 2022 Group #13</div>
+            <div id='footer' class='bg-dark'>© 2022 Group #13</div>
         </body>
     </html>
 ";

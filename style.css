@@ -7,15 +7,6 @@ body {
     font-family: 'Raleway', sans-serif;
 }
 
-#header {
-    height: 100px;
-    line-height: 100px;
-    font-size: 30px;
-    color: white;
-    background-color: black;
-    text-align: center;
-}
-
 #content {
     margin: 20px;
 }
@@ -49,10 +40,8 @@ table {
 }
 
 #footer {
-    height: 200px;
+    height: 120px;
     line-height: 80px;
     margin-top: 50px;
-    color: white;
-    background-color: black;
     text-align: center;
 }
