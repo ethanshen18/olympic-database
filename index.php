@@ -46,7 +46,7 @@ echo "
         </head>
 
         <body>
-            <nav class='navbar navbar-dark bg-dark justify-content-between'>
+            <nav class='navbar navbar-dark bg-dark text-white justify-content-between'>
                 <a class='navbar-brand' href='#'>
                     <img src='logo.png' height='30' class='d-inline-block align-top' alt=''> Olympic Games Database
                 </a>
@@ -73,21 +73,32 @@ if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
 
 // display all tables on load
 if (connectToDB()) {
+
+    echo "<div class='card-columns'>";
+
     foreach ($tableNames as $tableName) {
 
-        $result = executePlainSQL("select * from " . $tableName);
+        $result = executePlainSQL("select * from $tableName");
         $numCols = oci_num_fields($result);
 
-        echo "<div class='table-container'><b>" . $tableName . "</b><table>";
+        echo "
+            <div class='card'>
+                <div class='card-header bg-dark text-white'>$tableName</div>
+                <div class='card-body'>
+        ";
+
+        echo "<div class='table-responsive'><table class='table table-hover'>";
 
         // print table header
-        echo "<tr>";
+        echo "<thead><tr>";
         for ($i = 1; $i <= $numCols; $i++) {
-            echo "<td><b>" . oci_field_name($result, $i) . "</b></td>";
+            $col_name = oci_field_name($result, $i);
+            echo "<th scope='col'>$col_name</th>";
         }
-        echo "</tr>";
+        echo "</tr></thead>";
 
         // print table content
+        echo "<tbody>";
         while (($row = oci_fetch_row($result)) != false) {
             echo "<tr>";
             for ($i = 0; $i < $numCols; $i++) {
@@ -97,9 +108,14 @@ if (connectToDB()) {
             }
             echo "</tr>";
         }
-
-        echo "</table></div>";
+        echo "<tbody>";
+        echo "</table>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
     }
+
+    echo "</div>";
 
     OCICommit($db_conn);
     disconnectFromDB();
@@ -108,7 +124,7 @@ if (connectToDB()) {
 // country queries
 echo "
     <div class='card text-center'>
-        <div class='card-header'>Country Queries</div>
+        <div class='card-header bg-dark text-white'>Country Queries</div>
         <div class='card-body'>
             <div class='row'>
                 <div class='col'>
@@ -165,7 +181,7 @@ echo "
 // footer
 echo "
             </div>
-            <div id='footer' class='bg-dark'>© 2022 Group #13</div>
+            <div id='footer' class='bg-dark text-white'>© 2022 Group #13</div>
         </body>
     </html>
 ";

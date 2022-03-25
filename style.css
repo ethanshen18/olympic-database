@@ -11,21 +11,6 @@ body {
     margin: 20px;
 }
 
-.table-container {
-    display: inline-block;
-    margin: 10px;
-    text-align: center;
-}
-
-table, td, th {
-    border: 1px solid;
-    padding: 5px;
-}
-
-table {
-    border-collapse: collapse;
-}
-
 #footer {
     height: 120px;
     line-height: 80px;
