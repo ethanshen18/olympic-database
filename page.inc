@@ -4,12 +4,20 @@
     </head>
 
     <body>
-        <h2>Reset</h2>
-        <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
+        <h2>Reset all tables</h2>
+        <p>If this is your first time running this application, you must reset all tables</p>
 
         <form method="POST" action="index.php">
             <input type="hidden" id="resetTablesRequest" name="resetTablesRequest">
             <p><input type="submit" value="Reset" name="reset"></p>
+        </form>
+
+        <hr />
+
+        <h2>Display all tables</h2>
+        <form method="GET" action="index.php">
+            <input type="hidden" id="displayTablesRequest" name="displayTablesRequest">
+            <input type="submit" name="displayTables"></p>
         </form>
 
         <hr />
@@ -42,14 +50,6 @@
         <form method="GET" action="index.php">
             <input type="hidden" id="countTupleRequest" name="countTupleRequest">
             <input type="submit" name="countTuples"></p>
-        </form>
-
-        <hr />
-
-        <h2>Display the Tuples in DemoTable</h2>
-        <form method="GET" action="index.php">
-            <input type="hidden" id="displayTupleRequest" name="displayTupleRequest">
-            <input type="submit" name="displayTuples"></p>
         </form>
 
         <hr />
