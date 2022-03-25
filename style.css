@@ -4,16 +4,13 @@
 } 
 
 body {
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Verdana', sans-serif;
 }
 
 #content {
     margin: 20px;
 }
 
-#footer {
-    height: 120px;
-    line-height: 80px;
-    margin-top: 50px;
-    text-align: center;
+table {
+    font-size: 12px;
 }

@@ -46,9 +46,9 @@ echo "
         </head>
 
         <body>
-            <nav class='navbar navbar-dark bg-dark text-white justify-content-between'>
+            <nav class='navbar navbar-dark bg-dark text-white justify-content-between py-3'>
                 <a class='navbar-brand' href='#'>
-                    <img src='logo.png' height='30' class='d-inline-block align-top' alt=''> Olympic Games Database
+                    <img src='logo.png' height='30' class='d-inline-block align-top'> Olympic Games Database
                 </a>
                 <form class='form-inline my-2 my-lg-0' method='POST' action='index.php'>
                     <input class='btn btn-outline-warning my-2 my-sm-0' type='submit' value='Reset Database' name='reset'>
@@ -87,7 +87,7 @@ if (connectToDB()) {
                 <div class='card-body'>
         ";
 
-        echo "<div class='table-responsive'><table class='table table-hover'>";
+        echo "<div class='table-responsive'><table class='table table-hover text-left'>";
 
         // print table header
         echo "<thead><tr>";
@@ -181,7 +181,7 @@ echo "
 // footer
 echo "
             </div>
-            <div id='footer' class='bg-dark text-white'>© 2022 Group #13</div>
+            <nav class='navbar navbar-dark bg-dark text-white justify-content-center py-5'>© 2022 Group #13</nav>
         </body>
     </html>
 ";
