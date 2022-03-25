@@ -97,7 +97,7 @@ function resetTables() {
     global $tableNames;
 
     // drop old tables
-    foreach (array_reverse($tableNames) as $key => $tableName) executePlainSQL("drop table " . $key);
+    foreach (array_reverse(array_keys($tableNames)) as $key) executePlainSQL("drop table " . $key);
 
     // create new tables
     executePlainSQL("
