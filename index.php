@@ -79,8 +79,6 @@ function printResult($result) { //prints results from a select statement
 function connectToDB() {
     global $db_conn;
 
-    // create a credential.php file with the following line: 
-    // $db_conn = OCILogon("ora_CWL", "aXXXXXXXX", "dbhost.students.cs.ubc.ca:1522/stu");
     include "credential.php";
 
     if ($db_conn) {
@@ -147,8 +145,22 @@ function handleCountRequest() {
     }
 }
 
-// HANDLE ALL POST ROUTES
-// A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
+function handleDisplayRequest() {
+    global $db_conn;
+
+    $result = executePlainSQL("SELECT * FROM demoTable");
+
+    echo "<table border='1' cellspacing='5' cellpadding='5'";
+
+    echo "<tr> <td><b>Number</b></td> <td><b>Name</b></td> </tr>";
+
+    while (($row = oci_fetch_row($result)) != false) {
+        echo "<tr> <td>" . $row[0] . "</td> <td>" . $row[1] . "</td> </tr>";
+    }
+
+    echo "</table>";
+}
+
 function handlePOSTRequest() {
     if (connectToDB()) {
         if (array_key_exists('resetTablesRequest', $_POST)) {
@@ -163,12 +175,12 @@ function handlePOSTRequest() {
     }
 }
 
-// HANDLE ALL GET ROUTES
-// A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
 function handleGETRequest() {
     if (connectToDB()) {
         if (array_key_exists('countTuples', $_GET)) {
             handleCountRequest();
+        } else if (array_key_exists('displayTuples', $_GET)) {
+            handleDisplayRequest();
         }
 
         disconnectFromDB();
@@ -177,7 +189,7 @@ function handleGETRequest() {
 
 if (isset($_POST['reset']) || isset($_POST['updateSubmit']) || isset($_POST['insertSubmit'])) {
     handlePOSTRequest();
-} else if (isset($_GET['countTupleRequest'])) {
+} else if (isset($_GET['countTupleRequest']) || isset($_GET['displayTupleRequest'])) {
     handleGETRequest();
 }
 
