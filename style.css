@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+} 
+
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+#header {
+    height: 100px;
+    line-height: 100px;
+    font-size: 30px;
+    color: white;
+    background-color: black;
+    text-align: center;
+}
+
+#content {
+    margin: 20px;
+}
+
+.table-container {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+table, td, th {
+    border: 1px solid;
+    padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.section-title {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.query {
+    margin: 20px;
+    display: inline-block;
+}
+
+#footer {
+    height: 200px;
+    line-height: 80px;
+    margin-top: 50px;
+    color: white;
+    background-color: black;
+    text-align: center;
+}

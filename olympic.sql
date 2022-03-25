@@ -9,15 +9,52 @@ drop table ticketprice;
 drop table ticket;
 drop table attends;
 drop table represents;
-drop table athletebelongs;
-drop table team;
-drop table country;
 drop table sponsor;
 drop table mediastreamingplatform;
 drop table volunteer;
 drop table competition;
 drop table inpersonaudience;
 drop table onlineaudience;
+drop table athletebelongs;
+drop table team;
+drop table country;
+
+create table country
+(
+    countryname       char(50),
+    countrymedalcount int,
+    primary key (countryname)
+);
+
+insert into country
+values ('Canada', 12);
+
+create table team
+(
+    teamname    char(50),
+    teamsize    int      not null,
+    residency   char(50),
+    countryname char(50) not null unique,
+    primary key (teamname),
+    foreign key (countryname) references country on delete cascade
+);
+
+insert into team
+values ('Team of Canada', 30, 'Building 1', 'Canada');
+
+create table athletebelongs
+(
+    athleteid   int,
+    name        char(50) not null,
+    competition char(50) not null,
+    medalcount  int,
+    teamname    char(50),
+    primary key (athleteid),
+    foreign key (teamname) references team on delete cascade
+);
+
+insert into athletebelongs
+values (1, 'James Brown', 'Skating', 1, 'Team of Canada');
 
 create table onlineaudience
 (
@@ -81,43 +118,6 @@ create table sponsor
 
 insert into sponsor
 values ('Nike', 'New York');
-
-create table country
-(
-    countryname       char(50),
-    countrymedalcount int,
-    primary key (countryname)
-);
-
-insert into country
-values ('Canada', 12);
-
-create table team
-(
-    teamname    char(50),
-    teamsize    int      not null,
-    residency   char(50),
-    countryname char(50) not null unique,
-    primary key (teamname),
-    foreign key (countryname) references country on delete cascade
-);
-
-insert into team
-values ('Team of Canada', 30, 'Building 1', 'Canada');
-
-create table athletebelongs
-(
-    athleteid   int,
-    name        char(50) not null,
-    competition char(50) not null,
-    medalcount  int,
-    teamname    char(50),
-    primary key (athleteid),
-    foreign key (teamname) references team on delete cascade
-);
-
-insert into athletebelongs
-values (1, 'James Brown', 'Skating', 1, 'Team of Canada');
 
 create table represents
 (
