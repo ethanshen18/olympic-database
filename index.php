@@ -5,26 +5,26 @@ $db_conn = NULL; // edit the login credentials in credential.php
 
 // define all table named for easier batch processing
 $tableNames = array(
-    "COUNTRY",
-    "TEAM",
-    "ATHLETEBELONGS",
-    "ONLINEAUDIENCE",
-    "INPERSONAUDIENCE",
-    "COMPETITION",
-    "VOLUNTEER",
-    "MEDIASTREAMINGPLATFORM",
-    "SPONSOR",
-    "REPRESENTS",
-    "ATTENDS",
-    "TICKET",
-    "TICKETPRICE",
-    "WATCHES",
-    "STREAMS",
-    "STREAMPRICE",
-    "COMPETES",
-    "ASSISTS",
-    "ATHLETENEED",
-    "FUNDS",
+    "COUNTRY"                   => "Country",
+    "TEAM"                      => "Team",
+    "ATHLETEBELONGS"            => "Athlete",
+    "ONLINEAUDIENCE"            => "Online Audience",
+    "INPERSONAUDIENCE"          => "In-Person Audience",
+    "COMPETITION"               => "Competition",
+    "VOLUNTEER"                 => "Volunteer",
+    "MEDIASTREAMINGPLATFORM"    => "Media Streaming Platform",
+    "SPONSOR"                   => "Sponsor",
+    "REPRESENTS"                => "Represents",
+    "ATTENDS"                   => "Attends",
+    "TICKET"                    => "Ticket",
+    "TICKETPRICE"               => "Ticket Price",
+    "WATCHES"                   => "Watches",
+    "STREAMS"                   => "Streams",
+    "STREAMPRICE"               => "Stream Price",
+    "COMPETES"                  => "Competes",
+    "ASSISTS"                   => "Assists",
+    "ATHLETENEED"               => "Athlete Need",
+    "FUNDS"                     => "Funds",
 );
 
 // include php functions
@@ -93,9 +93,9 @@ if (connectToDB()) {
 
     echo "<div class='card-columns'>";
 
-    foreach ($tableNames as $tableName) {
+    foreach ($tableNames as $key => $tableName) {
 
-        $result = executePlainSQL("select * from $tableName");
+        $result = executePlainSQL("select * from $key");
         $numCols = oci_num_fields($result);
 
         echo "

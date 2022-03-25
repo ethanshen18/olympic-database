@@ -97,7 +97,7 @@ function resetTables() {
     global $tableNames;
 
     // drop old tables
-    foreach (array_reverse($tableNames) as $tableName) executePlainSQL("drop table " . $tableName);
+    foreach (array_reverse($tableNames) as $key => $tableName) executePlainSQL("drop table " . $key);
 
     // create new tables
     executePlainSQL("
@@ -146,7 +146,7 @@ function resetTables() {
 
     executePlainSQL("
         insert into athletebelongs
-        values (1, 'James Brown', 'Skating', 1, 'Team of Canada')
+        values (1, 'Jane Doe', 'Skating', 1, 'Team of Canada')
     ");
 
     executePlainSQL("
@@ -204,7 +204,7 @@ function resetTables() {
 
     executePlainSQL("
         insert into volunteer
-        values (1, 'Jason Bourne', 'Guide atheletes to locker rooms')
+        values (1, 'John Doe', 'Guide atheletes to locker rooms')
     ");
 
     executePlainSQL("
