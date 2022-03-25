@@ -49,6 +49,14 @@ if (isset($_POST['addCountry'])) executeQuery('addCountry');
 if (isset($_POST['updateMedalCount'])) executeQuery('updateMedalCount');
 if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
 
+// TODO: add more handlers here
+
+
+
+
+
+
+
 // display all tables on load
 if (connectToDB()) {
     foreach ($tableNames as $tableName) {
@@ -125,6 +133,16 @@ echo "
         </form>
     </div>
 ";
+
+// TODO: add more queries here
+
+
+
+
+
+
+
+
 
 // footer
 echo "
