@@ -18,7 +18,7 @@ Replace `CWL` and `XXXXXXXX` with UBC CWL username and password.
 
 ## View Application
 
-To view the application, the PHP and CSS files need to be hosted on a PHP enabled server. For CPSC 304, we will use the UBC CS server which already has an Apache server running. Simply upload all PHP and CSS files to the UBC CS student's home directory under `/public_html`, and go to the following address to view the application.
+To view the application, the source files need to be hosted on a PHP enabled server. For CPSC 304, we will use the UBC CS server which already has an Apache server running. Simply upload all source files to the UBC CS student's home directory under `/public_html`, and go to the following address to view the application.
 
 ```
 https://www.students.cs.ubc.ca/~CWL/

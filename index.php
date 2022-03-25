@@ -42,7 +42,24 @@ echo "
             <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
         
             <title>CPSC 304 Project</title>
-            <link rel='stylesheet' href='style.css'>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                } 
+                
+                body {
+                    font-family: 'Verdana', sans-serif;
+                }
+                
+                #content {
+                    margin: 20px;
+                }
+                
+                table {
+                    font-size: 12px;
+                }            
+            </style>
         </head>
 
         <body>
