@@ -43,11 +43,11 @@ echo "
             <div id='content'>
 ";
 
-if (isset($_POST['reset']) || isset($_POST['updateSubmit']) || isset($_POST['insertSubmit'])) {
-    handlePOSTRequest();
-} else if (isset($_GET['countTupleRequest'])) {
-    handleGETRequest();
-}
+// GET and POST endpoints
+if (isset($_POST['reset'])) executeQuery('resetTables');
+if (isset($_POST['addCountry'])) executeQuery('addCountry');
+if (isset($_POST['updateMedalCount'])) executeQuery('updateMedalCount');
+if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
 
 // display all tables on load
 if (connectToDB()) {
@@ -87,8 +87,8 @@ if (connectToDB()) {
 echo "
     <br><br>
     <form method='POST' action='index.php'>
-        <input type='hidden' id='resetTablesRequest' name='resetTablesRequest'>
-        <p>Click here to reset the database to initial state: <input type='submit' value='Reset Database' name='reset'></p>
+        Click here to reset the database to initial state: 
+        <input type='submit' value='Reset Database' name='reset'>
     </form>
     <br><br>
 ";
@@ -100,31 +100,28 @@ echo "
     <div class='section-title'><b>Country Queries</b></div>
 
     <div class='query'>
-        Add New Country<br><br>
+        Add Country<br><br>
         <form method='POST' action='index.php'>
-            <input type='hidden' id='insertQueryRequest' name='insertQueryRequest'>
-            Country Name: <input type='text' name='insNo'><br><br>
-            Medal Count: <input type='text' name='insName'><br><br>
-            <input type='submit' value='Add' name='insertSubmit'></p>
+            Country Name: <input type='text' name='countryName'><br><br>
+            Medal Count: <input type='text' name='medalCount'><br><br>
+            <input type='submit' value='Add' name='addCountry'></p>
         </form>
     </div>
 
     <div class='query'>
         Update Medal Count<br><br>
         <form method='POST' action='index.php'>
-            <input type='hidden' id='updateQueryRequest' name='updateQueryRequest'>
-            Country Name: <input type='text' name='oldName'><br><br>
-            New Medal Count: <input type='text' name='newName'><br><br>
-            <input type='submit' value='Update' name='updateSubmit'></p>
+            Country Name: <input type='text' name='countryName'><br><br>
+            New Medal Count: <input type='text' name='medalCount'><br><br>
+            <input type='submit' value='Update' name='updateMedalCount'></p>
         </form>
     </div>
 
     <div class='query'>
         Delete Country<br><br>
-        <form method='GET' action='index.php'>
-            <input type='hidden' id='countTupleRequest' name='countTupleRequest'>
-            Country Name: <input type='text' name='insNo'><br><br><br><br>
-            <input type='submit' value='Delete' name='countTuples'></p>
+        <form method='POST' action='index.php'>
+            Country Name: <input type='text' name='countryName'><br><br><br><br>
+            <input type='submit' value='Delete' name='deleteCountry'></p>
         </form>
     </div>
 ";

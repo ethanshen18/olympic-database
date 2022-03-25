@@ -417,64 +417,41 @@ function resetTables() {
     OCICommit($db_conn);
 }
 
-function handleUpdateRequest() {
+///////////////////////////////// Query Handlers ////////////////////////////////////////////////////////////
+
+function addCountry() {
     global $db_conn;
 
-    $old_name = $_POST['oldName'];
-    $new_name = $_POST['newName'];
-
-    // you need the wrap the old name and new name values with single quotations
-    executePlainSQL("UPDATE demoTable SET name='" . $new_name . "' WHERE name='" . $old_name . "'");
-    OCICommit($db_conn);
-}
-
-function handleInsertRequest() {
-    global $db_conn;
-
-    //Getting the values from user and insert data into the table
     $tuple = array (
-        ":bind1" => $_POST['insNo'],
-        ":bind2" => $_POST['insName']
+        ":bind1" => $_POST['countryName'],
+        ":bind2" => $_POST['medalCount']
     );
 
     $alltuples = array (
         $tuple
     );
 
-    executeBoundSQL("insert into demoTable values (:bind1, :bind2)", $alltuples);
+    executeBoundSQL("insert into country values (:bind1, :bind2)", $alltuples);
     OCICommit($db_conn);
 }
 
-function handleCountRequest() {
+function updateMedalCount() {
     global $db_conn;
-
-    $result = executePlainSQL("SELECT Count(*) FROM demoTable");
-
-    if (($row = oci_fetch_row($result)) != false) {
-        echo "<br> The number of tuples in demoTable: " . $row[0] . "<br>";
-    }
+    executePlainSQL("update country set countrymedalcount='" . $_POST['medalCount'] . "' where countryname='" . $_POST['countryName'] . "'");
+    OCICommit($db_conn);
 }
 
-function handlePOSTRequest() {
-    if (connectToDB()) {
-        if (array_key_exists('resetTablesRequest', $_POST)) {
-            resetTables();
-        } else if (array_key_exists('updateQueryRequest', $_POST)) {
-            handleUpdateRequest();
-        } else if (array_key_exists('insertQueryRequest', $_POST)) {
-            handleInsertRequest();
-        }
-
-        disconnectFromDB();
-    }
+function deleteCountry() {
+    global $db_conn;
+    executePlainSQL("delete from country where countryname='" . $_POST['countryName'] . "'");
+    OCICommit($db_conn);
 }
 
-function handleGETRequest() {
-    if (connectToDB()) {
-        if (array_key_exists('countTuples', $_GET)) {
-            handleCountRequest();
-        }
+///////////////////////////////// End Handlers ////////////////////////////////////////////////////////////
 
+function executeQuery($func) {
+    if (connectToDB()) {
+        $func();
         disconnectFromDB();
     }
 }
