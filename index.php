@@ -1,187 +1,302 @@
 <?php
 
-// main html page
-include "page.inc";
-
 $success = True; // keep track of errors so it redirects the page only if there are no errors
 $db_conn = NULL; // edit the login credentials in credential.php
 
-function executePlainSQL($cmdstr) { //takes a plain (no bound variables) SQL command and executes it
-    global $db_conn, $success;
+// define all table named for easier batch processing
+$tableNames = array(
+    "COUNTRY"                   => "Country",
+    "TEAM"                      => "Team",
+    "ATHLETEBELONGS"            => "Athlete",
+    "ONLINEAUDIENCE"            => "Online Audience",
+    "INPERSONAUDIENCE"          => "In-Person Audience",
+    "COMPETITION"               => "Competition",
+    "VOLUNTEER"                 => "Volunteer",
+    "MEDIASTREAMINGPLATFORM"    => "Media Streaming Platform",
+    "SPONSOR"                   => "Sponsor",
+    "REPRESENTS"                => "Represents",
+    "ATTENDS"                   => "Attends",
+    "TICKET"                    => "Ticket",
+    "TICKETPRICE"               => "Ticket Price",
+    "WATCHES"                   => "Watches",
+    "STREAMS"                   => "Streams",
+    "STREAMPRICE"               => "Stream Price",
+    "COMPETES"                  => "Competes",
+    "ASSISTS"                   => "Assists",
+    "ATHLETENEED"               => "Athlete Need",
+    "FUNDS"                     => "Funds",
+);
 
-    $statement = OCIParse($db_conn, $cmdstr);
-    //There are a set of comments at the end of the file that describe some of the OCI specific functions and how they work
+// include php functions
+include "functions.php";
 
-    if (!$statement) {
-        echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
-        $e = OCI_Error($db_conn); // For OCIParse errors pass the connection handle
-        echo htmlentities($e['message']);
-        $success = False;
-    }
+// html header
+echo "
+    <html>
+        <head>
+            <!-- Required meta tags -->
+            <meta charset='utf-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+        
+            <!-- Bootstrap CSS -->
+            <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        
+            <title>CPSC 304 Project</title>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                } 
+                
+                body {
+                    font-family: 'Verdana', sans-serif;
+                }
+                
+                #content {
+                    margin: 20px;
+                }
+                
+                table {
+                    font-size: 12px;
+                }            
+            </style>
+        </head>
 
-    $r = OCIExecute($statement, OCI_DEFAULT);
-    if (!$r) {
-        echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
-        $e = oci_error($statement); // For OCIExecute errors pass the statementhandle
-        echo htmlentities($e['message']);
-        $success = False;
-    }
+        <body>
+            <nav class='navbar navbar-dark bg-dark text-white justify-content-between py-3'>
+                <a class='navbar-brand' href='#'>
+                    <img src='logo.png' height='30' class='d-inline-block align-top'> Olympic Games Database
+                </a>
+                <form class='form-inline my-2 my-lg-0' method='POST' action='index.php'>
+                    <input class='btn btn-outline-warning my-2 my-sm-0' type='submit' value='Reset Database' name='reset'>
+                </form>
+            </nav>
+            <div id='content'>
+";
 
-    return $statement;
-}
+// GET and POST endpoints
+if (isset($_POST['reset'])) executeQuery('resetTables');
+if (isset($_POST['addCountry'])) executeQuery('addCountry');
+if (isset($_POST['updateMedalCount'])) executeQuery('updateMedalCount');
+if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
 
-/* Sometimes the same statement will be executed several times with different values for the variables involved in the query.
-In this case you don't need to create the statement several times. Bound variables cause a statement to only be
-parsed once and you can reuse the statement. This is also very useful in protecting against SQL injection.
-See the sample code below for how this function is used */
-function executeBoundSQL($cmdstr, $list) {
-    global $db_conn, $success;
-    $statement = OCIParse($db_conn, $cmdstr);
+// TODO: add more handlers here
 
-    if (!$statement) {
-        echo "<br>Cannot parse the following command: " . $cmdstr . "<br>";
-        $e = OCI_Error($db_conn);
-        echo htmlentities($e['message']);
-        $success = False;
-    }
+    // for athlete
+if (isset($_POST['addAthletebelongs'])) executeQuery('addAthletebelongs');
+if (isset($_POST['updateAthleteMedalCount'])) executeQuery('updateAthleteMedalCount');
+if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
 
-    foreach ($list as $tuple) {
-        foreach ($tuple as $bind => $val) {
-            //echo $val;
-            //echo "<br>".$bind."<br>";
-            OCIBindByName($statement, $bind, $val);
-            unset ($val); //make sure you do not remove this. Otherwise $val will remain in an array object wrapper which will not be recognized by Oracle as a proper datatype
+    // for team
+if (isset($_POST['addTeam'])) executeQuery('addTeam');
+if (isset($_POST['deleteTeam'])) executeQuery('deleteTeam');
+
+// display all tables on load
+if (connectToDB()) {
+
+    echo "<div class='card-columns'>";
+
+    foreach ($tableNames as $key => $tableName) {
+
+        $result = executePlainSQL("select * from $key");
+        $numCols = oci_num_fields($result);
+
+        echo "
+            <div class='card'>
+                <div class='card-header bg-dark text-white'>$tableName</div>
+                <div class='card-body'>
+        ";
+
+        echo "<div class='table-responsive'><table class='table table-hover text-left'>";
+
+        // print table header
+        echo "<thead><tr>";
+        for ($i = 1; $i <= $numCols; $i++) {
+            $col_name = oci_field_name($result, $i);
+            echo "<th scope='col'>$col_name</th>";
         }
+        echo "</tr></thead>";
 
-        $r = OCIExecute($statement, OCI_DEFAULT);
-        if (!$r) {
-            echo "<br>Cannot execute the following command: " . $cmdstr . "<br>";
-            $e = OCI_Error($statement); // For OCIExecute errors, pass the statementhandle
-            echo htmlentities($e['message']);
-            echo "<br>";
-            $success = False;
+        // print table content
+        echo "<tbody>";
+        while (($row = oci_fetch_row($result)) != false) {
+            echo "<tr>";
+            for ($i = 0; $i < $numCols; $i++) {
+                echo "<td>";
+                echo $row[$i];
+                echo "</td>";
+            }
+            echo "</tr>";
         }
-    }
-}
-
-function printResult($result) { //prints results from a select statement
-    echo "<br>Retrieved data from table demoTable:<br>";
-    echo "<table>";
-    echo "<tr><th>ID</th><th>Name</th></tr>";
-
-    while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-        echo "<tr><td>" . $row["ID"] . "</td><td>" . $row["NAME"] . "</td></tr>"; //or just use "echo $row[0]"
+        echo "<tbody>";
+        echo "</table>";
+        echo "</div>";
+        echo "</div>";
+        echo "</div>";
     }
 
-    echo "</table>";
-}
+    echo "</div>";
 
-function connectToDB() {
-    global $db_conn;
-
-    // create a credential.php file with the following line: 
-    // $db_conn = OCILogon("ora_CWL", "aXXXXXXXX", "dbhost.students.cs.ubc.ca:1522/stu");
-    include "credential.php";
-
-    if ($db_conn) {
-        return true;
-    } else {
-        $e = OCI_Error(); // For OCILogon errors pass no handle
-        echo htmlentities($e['message']);
-        return false;
-    }
-}
-
-function disconnectFromDB() {
-    global $db_conn;
-
-    OCILogoff($db_conn);
-}
-
-function handleUpdateRequest() {
-    global $db_conn;
-
-    $old_name = $_POST['oldName'];
-    $new_name = $_POST['newName'];
-
-    // you need the wrap the old name and new name values with single quotations
-    executePlainSQL("UPDATE demoTable SET name='" . $new_name . "' WHERE name='" . $old_name . "'");
     OCICommit($db_conn);
+    disconnectFromDB();
 }
 
-function handleResetRequest() {
-    global $db_conn;
-    // Drop old table
-    executePlainSQL("DROP TABLE demoTable");
+// country queries
+echo "
+    <div class='card text-center'>
+        <div class='card-header bg-dark text-white'>Country Queries</div>                   
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col'>
+                    <h5 class='card-title'>Add country</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='medal count' name='medalCount'>
+                        </div>
+                        <input type='submit' value='Add' name='addCountry' class='btn btn-primary'>
+                    </form>
+                </div>
 
-    // Create new table
-    echo "<br> creating new table <br>";
-    executePlainSQL("CREATE TABLE demoTable (id int PRIMARY KEY, name char(30))");
-    OCICommit($db_conn);
-}
+                <div class='col'>
+                    <h5 class='card-title'>Update medal count</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='new medal count' name='medalCount'>
+                        </div>
+                        <input type='submit' value='Update' name='updateMedalCount' class='btn btn-primary'>
+                    </form>
+                </div>
 
-function handleInsertRequest() {
-    global $db_conn;
+                <div class='col'>
+                    <h5 class='card-title'>Delete country</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                        </div>
+                        <br><br>
+                        <input type='submit' value='Delete' name='deleteCountry' class='btn btn-primary'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+";
 
-    //Getting the values from user and insert data into the table
-    $tuple = array (
-        ":bind1" => $_POST['insNo'],
-        ":bind2" => $_POST['insName']
-    );
+// TODO: add more queries here
 
-    $alltuples = array (
-        $tuple
-    );
+    // Query for athletebelongs , upadate in atheletebelongs does not work:
+    // it change the orinal value to null for somehow.
+echo "
+    <div class='card text-center'>
+        <div class='card-header bg-dark text-white'>Athlete Queries</div>                   
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col'>
+                    <h5 class='card-title'>Add athlete</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='athlete id' name='athleteid'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='athlete name' name='athleteName'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='competition' name='athletecompetition'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='athlete medal count' name='athletemedalcount'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='teamname' name='athleteteamname'>
+                        </div>
+                        <input type='submit' value='Add' name='addAthletebelongs' class='btn btn-primary'>
+                    </form>
+                </div>
 
-    executeBoundSQL("insert into demoTable values (:bind1, :bind2)", $alltuples);
-    OCICommit($db_conn);
-}
+                <div class='col'>
+                    <h5 class='card-title'>Update medal count</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='new medal count' name='athletemedalcount'>
+                        </div>
+                        <input type='submit' value='Update' name='updateAthleteMedalCount' class='btn btn-primary'>
+                    </form>
+                </div>
 
-function handleCountRequest() {
-    global $db_conn;
+                <div class='col'>
+                    <h5 class='card-title'>Delete athlete</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
+                        </div>
+                        <br><br>
+                        <input type='submit' value='Delete' name='deleteAthelete' class='btn btn-primary'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+";
 
-    $result = executePlainSQL("SELECT Count(*) FROM demoTable");
+// team
+echo "
+    <div class='card text-center'>
+        <div class='card-header bg-dark text-white'>Team Queries</div>                   
+        <div class='card-body'>
+            <div class='row'>
+                <div class='col'>
+                    <h5 class='card-title'>Add Team</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='teamname' name='teamname'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='team size' name='teamsize'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='residency address' name='residency'>
+                        </div>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='Country belongs' name='countryname'>
+                        </div>
+                        <input type='submit' value='Add' name='addTeam' class='btn btn-primary'>
+                    </form>
+                </div>
 
-    if (($row = oci_fetch_row($result)) != false) {
-        echo "<br> The number of tuples in demoTable: " . $row[0] . "<br>";
-    }
-}
+                <div class='col'>
+                    <h5 class='card-title'>Delete Team</h5>
+                    <form method='POST' action='index.php'>
+                        <div class='form-group'>
+                            <input type='text' class='form-control' placeholder='Team name' name='teamname'>
+                        </div>
+                        <br><br>
+                        <input type='submit' value='Delete' name='deleteTeam' class='btn btn-primary'>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+";
 
-// HANDLE ALL POST ROUTES
-// A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
-function handlePOSTRequest() {
-    if (connectToDB()) {
-        if (array_key_exists('resetTablesRequest', $_POST)) {
-            handleResetRequest();
-        } else if (array_key_exists('updateQueryRequest', $_POST)) {
-            handleUpdateRequest();
-        } else if (array_key_exists('insertQueryRequest', $_POST)) {
-            handleInsertRequest();
-        }
 
-        disconnectFromDB();
-    }
-}
 
-// HANDLE ALL GET ROUTES
-// A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
-function handleGETRequest() {
-    if (connectToDB()) {
-        if (array_key_exists('countTuples', $_GET)) {
-            handleCountRequest();
-        }
 
-        disconnectFromDB();
-    }
-}
 
-if (isset($_POST['reset']) || isset($_POST['updateSubmit']) || isset($_POST['insertSubmit'])) {
-    handlePOSTRequest();
-} else if (isset($_GET['countTupleRequest'])) {
-    handleGETRequest();
-}
-
-// html closing tags
-include "footer.inc";
+// footer
+echo "
+            </div>
+            <nav class='navbar navbar-dark bg-dark text-white justify-content-center py-5'>© 2022 Group #13</nav>
+        </body>
+    </html>
+";
 
 ?>
