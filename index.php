@@ -79,15 +79,9 @@ if (isset($_POST['reset'])) executeQuery('resetTables');
 if (isset($_POST['addCountry'])) executeQuery('addCountry');
 if (isset($_POST['updateMedalCount'])) executeQuery('updateMedalCount');
 if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
-
-// TODO: add more handlers here
-
-    // for athlete
 if (isset($_POST['addAthletebelongs'])) executeQuery('addAthletebelongs');
 if (isset($_POST['updateAthleteMedalCount'])) executeQuery('updateAthleteMedalCount');
 if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
-
-    // for team
 if (isset($_POST['addTeam'])) executeQuery('addTeam');
 if (isset($_POST['deleteTeam'])) executeQuery('deleteTeam');
 
@@ -144,7 +138,7 @@ if (connectToDB()) {
 // country queries
 echo "
     <div class='card text-center'>
-        <div class='card-header bg-dark text-white'>Country Queries</div>                   
+        <div class='card-header bg-dark text-white'>Country Queries</div>
         <div class='card-body'>
             <div class='row'>
                 <div class='col'>
@@ -188,10 +182,7 @@ echo "
     </div>
 ";
 
-// TODO: add more queries here
-
-    // Query for athletebelongs , upadate in atheletebelongs does not work:
-    // it change the orinal value to null for somehow.
+// athlete queries
 echo "
     <div class='card text-center'>
         <div class='card-header bg-dark text-white'>Athlete Queries</div>                   
@@ -247,7 +238,7 @@ echo "
     </div>
 ";
 
-// team
+// team queries
 echo "
     <div class='card text-center'>
         <div class='card-header bg-dark text-white'>Team Queries</div>                   

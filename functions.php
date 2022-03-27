@@ -7,12 +7,10 @@ function executePlainSQL($cmdstr) {
     $statement = OCIParse($db_conn, $cmdstr);
 
     if (!$statement) {
-        $e = OCI_Error($db_conn);
-        $errorMessage = $e['message'];
+        $e = OCI_Error($db_conn)['message'];
         echo "
             <div class='alert alert-danger' role='alert'>
-                Cannot parse the following command: $cmdstr<br>
-                $errorMessage
+                Cannot parse the following command: $cmdstr<br>$e
             </div>
         ";
         $success = False;
@@ -20,14 +18,12 @@ function executePlainSQL($cmdstr) {
 
     $r = OCIExecute($statement, OCI_DEFAULT);
     if (!$r) {
-        $e = oci_error($statement);
-        $errorMessage = $e['message'];
-            echo "
-                <div class='alert alert-danger' role='alert'>
-                    Cannot execute the following command: $cmdstr<br>
-                    $errorMessage
-                </div>
-            ";
+        $e = oci_error($statement)['message'];
+        echo "
+            <div class='alert alert-danger' role='alert'>
+                Cannot execute the following command: $cmdstr<br>$e
+            </div>
+        ";
         $success = False;
     }
 
@@ -43,12 +39,10 @@ function executeBoundSQL($cmdstr, $list) {
     $statement = OCIParse($db_conn, $cmdstr);
 
     if (!$statement) {
-        $e = OCI_Error($db_conn);
-        $errorMessage = $e['message'];
+        $e = OCI_Error($db_conn)['message'];
         echo "
             <div class='alert alert-danger' role='alert'>
-                Cannot parse the following command: $cmdstr<br>
-                $errorMessage
+                Cannot parse the following command: $cmdstr<br>$e
             </div>
         ";
         $success = False;
@@ -62,12 +56,10 @@ function executeBoundSQL($cmdstr, $list) {
 
         $r = OCIExecute($statement, OCI_DEFAULT);
         if (!$r) {
-            $e = OCI_Error($statement);
-            $errorMessage = $e['message'];
+            $e = OCI_Error($statement)['message'];
             echo "
                 <div class='alert alert-danger' role='alert'>
-                    Cannot execute the following command: $cmdstr<br>
-                    $errorMessage
+                    Cannot execute the following command: $cmdstr<br>$e
                 </div>
             ";
             $success = False;
@@ -83,12 +75,10 @@ function connectToDB() {
     if ($db_conn) {
         return true;
     } else {
-        $e = OCI_Error();
-        $errorMessage = $e['message'];
+        $e = OCI_Error()['message'];
         echo "
             <div class='alert alert-danger' role='alert'>
-                Failed to connect to database!<br>
-                $errorMessage
+                Failed to connect to database!<br>$e
             </div>
         ";
         return false;
@@ -457,10 +447,6 @@ function deleteCountry() {
     OCICommit($db_conn);
 }
 
-// TODO: add more handlers here
-
-// Athlete_belongs handler 
-
 function addAthletebelongs() {
     global $db_conn;
 
@@ -486,21 +472,12 @@ function updateAthleteMedalCount() {
     OCICommit($db_conn);
 }
 
-// function updateAthleteMedalCount() {
-//     global $db_conn;
-//     executePlainSQL("update athletebelongs set medalcount='" . $_POST['athleteMedalCount'] . "' where athleteid='" . $_POST['athleteid'] . "'");
-//     // do I need to update the medal count in the corresponding country as well?
-//     OCICommit($db_conn);
-// }
-
 function deleteAthelete() {
     global $db_conn;
     executePlainSQL("delete from athletebelongs where athleteid='" . $_POST['athleteid'] . "'");
     OCICommit($db_conn);
 }
 
-
-//team
 function addTeam() {
     global $db_conn;
 
@@ -528,8 +505,11 @@ function deleteTeam() {
 
 
 
+
+
+
+
 ///////////////////////////////// End Handlers ////////////////////////////////////////////////////////////
-//function pointer?
 function executeQuery($func) {
     if (connectToDB()) {
         $func();
