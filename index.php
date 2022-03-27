@@ -219,6 +219,9 @@ echo "
                         <div class='form-group'>
                             <input type='text' class='form-control' placeholder='new medal count' name='athletemedalcount'>
                         </div>
+                        <br><br>
+                        <br><br>
+                        <br><br>
                         <input type='submit' value='Update' name='updateAthleteMedalCount' class='btn btn-primary'>
                     </form>
                 </div>
@@ -229,6 +232,9 @@ echo "
                         <div class='form-group'>
                             <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
                         </div>
+                        <br><br>
+                        <br><br>
+                        <br><br>
                         <br><br>
                         <input type='submit' value='Delete' name='deleteAthelete' class='btn btn-primary'>
                     </form>
@@ -269,6 +275,8 @@ echo "
                         <div class='form-group'>
                             <input type='text' class='form-control' placeholder='Team name' name='teamname'>
                         </div>
+                        <br><br>
+                        <br><br>
                         <br><br>
                         <input type='submit' value='Delete' name='deleteTeam' class='btn btn-primary'>
                     </form>
