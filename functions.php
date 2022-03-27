@@ -19,11 +19,11 @@ function executePlainSQL($cmdstr) {
     $r = OCIExecute($statement, OCI_DEFAULT);
     if (!$r) {
         $e = oci_error($statement)['message'];
-            echo "
-                <div class='alert alert-danger' role='alert'>
-                    Cannot execute the following command: $cmdstr<br>$e
-                </div>
-            ";
+        echo "
+            <div class='alert alert-danger' role='alert'>
+                Cannot execute the following command: $cmdstr<br>$e
+            </div>
+        ";
         $success = False;
     }
 
