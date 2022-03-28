@@ -135,22 +135,23 @@ function deleteCountry() {
     OCICommit($db_conn);
 }
 
-function addAthletebelongs() {
+function addAthlete() {
     global $db_conn;
 
     $tuple = array(
         ":bind1" => $_POST['athleteid'],
         ":bind2" => $_POST['athleteName'],
-        ":bind3" => $_POST['athletecompetition'],
-        ":bind4" => $_POST['athletemedalcount'],
-        ":bind5" => $_POST['athleteteamname']
+        ":bind3" => $_POST['athleteAge'],
+        ":bind4" => $_POST['athletecompetition'],
+        ":bind5" => $_POST['athletemedalcount'],
+        ":bind6" => $_POST['athleteteamname']
     );
 
     $alltuples = array (
         $tuple
     );
 
-    executeBoundSQL("insert into athletebelongs values (:bind1, :bind2, :bind3, :bind4, :bind5)", $alltuples);
+    executeBoundSQL("insert into athletebelongs values (:bind1, :bind2, :bind3, :bind4, :bind5, :bind6)", $alltuples);
     OCICommit($db_conn);
 }
 

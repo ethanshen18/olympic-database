@@ -79,7 +79,7 @@ if (isset($_POST['reset'])) executeQuery('resetTables');
 if (isset($_POST['addCountry'])) executeQuery('addCountry');
 if (isset($_POST['updateMedalCount'])) executeQuery('updateMedalCount');
 if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
-if (isset($_POST['addAthletebelongs'])) executeQuery('addAthletebelongs');
+if (isset($_POST['addAthlete'])) executeQuery('addAthlete');
 if (isset($_POST['updateAthleteMedalCount'])) executeQuery('updateAthleteMedalCount');
 if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
 if (isset($_POST['addTeam'])) executeQuery('addTeam');
@@ -98,6 +98,9 @@ echo "
                 </li>
                 <li class='nav-item'>
                     <a class='nav-link' data-bs-toggle='collapse' href='#editAthletes' role='button' aria-expanded='false'>Edit Athletes</a>
+                </li>
+                <li class='nav-item'>
+                    <a class='nav-link' data-bs-toggle='collapse' href='#search' role='button' aria-expanded='false'>Search</a>
                 </li>
             </ul>
         </div>
@@ -142,7 +145,6 @@ echo "
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='country name' name='countryName'>
                             </div>
-                            <br><br>
                             <input type='submit' value='Delete' name='deleteCountry' class='btn btn-primary'>
                         </form>
                     </div>
@@ -183,9 +185,6 @@ echo "
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='team name' name='teamname'>
                             </div>
-                            <br><br>
-                            <br><br>
-                            <br><br>
                             <input type='submit' value='Delete' name='deleteTeam' class='btn btn-primary'>
                         </form>
                     </div>
@@ -208,18 +207,21 @@ echo "
                                 <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='athlete name' name='athleteName'>
+                                <input type='text' class='form-control' placeholder='name' name='athleteName'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='age' name='athleteAge'>
                             </div>
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='competition' name='athletecompetition'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='athlete medal count' name='athletemedalcount'>
+                                <input type='text' class='form-control' placeholder='medal count' name='athletemedalcount'>
                             </div>
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='team name' name='athleteteamname'>
                             </div>
-                            <input type='submit' value='Add' name='addAthletebelongs' class='btn btn-primary'>
+                            <input type='submit' value='Add' name='addAthlete' class='btn btn-primary'>
                         </form>
                     </div>
 
@@ -232,9 +234,6 @@ echo "
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='new medal count' name='athletemedalcount'>
                             </div>
-                            <br><br>
-                            <br><br>
-                            <br><br>
                             <input type='submit' value='Update' name='updateAthleteMedalCount' class='btn btn-primary'>
                         </form>
                     </div>
@@ -245,10 +244,6 @@ echo "
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
                             </div>
-                            <br><br>
-                            <br><br>
-                            <br><br>
-                            <br><br>
                             <input type='submit' value='Delete' name='deleteAthelete' class='btn btn-primary'>
                         </form>
                     </div>
@@ -258,10 +253,96 @@ echo "
     </div>
 ";
 
+// search queries
+echo "
+    <div class='collapse' id='search' data-bs-parent='#group'>
+        <div class='card text-center border-0'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col'>
+                        <h5 class='card-title'>Find athletes by medal count</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='minimum medal count' name='medalCount'>
+                            </div>
+                            <input type='submit' value='Find' name='selection' class='btn btn-primary'>
+                        </form>
+                    </div>
 
+                    <div class='col'>
+                        <h5 class='card-title'>Find athlete residency</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete name' name='name'>
+                            </div>
+                            <input type='submit' value='Find' name='join' class='btn btn-primary'>
+                        </form>
+                    </div>
 
+                    <div class='col'>
+                        <h5 class='card-title'>Find top athletes by country</h5>
+                        <form method='POST' action='index.php'>
+                            <input type='submit' value='Find' name='aggregation' class='btn btn-primary'>
+                        </form>
+                    </div>
+                </div>
 
+                <br><br>
 
+                <div class='row'>
+                    <div class='col'>
+                        <h5 class='card-title'>Find average  youngest athlete age by country</h5>
+                        <form method='POST' action='index.php'>
+                            <input type='submit' value='Find' name='nested' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Show athlete details</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionName' name='name'>
+                                <label class='form-check-label' for='projectionName'>Athlete Name</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionCompetition' name='competition'>
+                                <label class='form-check-label' for='projectionCompetition'>Competition</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionMedalCount' name='medalCount'>
+                                <label class='form-check-label' for='projectionMedalCount'>Medal Count</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionTeamName' name='team'>
+                                <label class='form-check-label' for='projectionTeamName'>Team Name</label>
+                            </div>
+                            <input type='submit' value='Show' name='projection' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Find athlete by competitions</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='divisionSkating' name='skating'>
+                                <label class='form-check-label' for='divisionSkating'>Skating</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='divisionHockey' name='hockey'>
+                                <label class='form-check-label' for='divisionHockey'>Hockey</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='divisionSkiing' name='skiing'>
+                                <label class='form-check-label' for='divisionSkiing'>Skiing</label>
+                            </div>
+                            <input type='submit' value='Find' name='division' class='btn btn-primary'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+";
 
 // end accordian
 echo "

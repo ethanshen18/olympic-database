@@ -58,6 +58,7 @@ create table athletebelongs
 (
     athleteid   int,
     name        char(50) not null,
+    age         int not null,
     competition char(50) not null,
     medalcount  int,
     teamname    char(50),
@@ -66,25 +67,25 @@ create table athletebelongs
 );
 
 insert into athletebelongs
-values (1, 'Jack McBain', 'Hockey, Skating', 2, 'Team of Canada');
+values (1, 'Jack McBain', 18, 'Hockey, Skating', 2, 'Team of Canada');
 
 insert into athletebelongs
-values (2, 'Kent Johnson', 'Hockey', 0, 'Team of Canada');
+values (2, 'Kent Johnson', 20, 'Hockey', 0, 'Team of Canada');
 
 insert into athletebelongs
-values (3, 'Adam Tambellini', 'Hockey, Skating', 1, 'Team of Canada');
+values (3, 'Adam Tambellini', 19, 'Hockey, Skating', 1, 'Team of Canada');
 
 insert into athletebelongs
-values (4, 'Landon Ferraro', 'Hockey', 3, 'Team of USA');
+values (4, 'Landon Ferraro', 24, 'Hockey', 3, 'Team of USA');
 
 insert into athletebelongs
-values (5, 'Adam Weal', 'Skating', 0, 'Team of USA');
+values (5, 'Adam Weal', 16, 'Skating', 0, 'Team of USA');
 
 insert into athletebelongs
-values (6, 'Alex Grant', 'Skating', 0, 'Team of USA');
+values (6, 'Alex Grant', 21, 'Skating', 0, 'Team of USA');
 
 insert into athletebelongs
-values (7, 'Jack Robinson', 'Hockey, Skating', 1, 'Team of USA');
+values (7, 'Jack Robinson', 25, 'Hockey, Skating', 1, 'Team of USA');
 
 create table onlineaudience
 (
