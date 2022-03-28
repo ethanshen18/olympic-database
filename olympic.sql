@@ -29,6 +29,12 @@ create table country
 insert into country
 values ('Canada', 12);
 
+insert into country
+values ('USA', 5);
+
+insert into country
+values ('Germany', 3);
+
 create table team
 (
     teamname    char(50),
@@ -42,6 +48,12 @@ create table team
 insert into team
 values ('Team of Canada', 30, 'Building 1', 'Canada');
 
+insert into team
+values ('Team of USA', 45, 'Building 2', 'USA');
+
+insert into team
+values ('Team of Germany', 30, 'Building 3', 'Germany');
+
 create table athletebelongs
 (
     athleteid   int,
@@ -54,7 +66,25 @@ create table athletebelongs
 );
 
 insert into athletebelongs
-values (1, 'James Brown', 'Skating', 1, 'Team of Canada');
+values (1, 'Jack McBain', 'Hockey, Skating', 2, 'Team of Canada');
+
+insert into athletebelongs
+values (2, 'Kent Johnson', 'Hockey', 0, 'Team of Canada');
+
+insert into athletebelongs
+values (3, 'Adam Tambellini', 'Hockey, Skating', 1, 'Team of Canada');
+
+insert into athletebelongs
+values (4, 'Landon Ferraro', 'Hockey', 3, 'Team of USA');
+
+insert into athletebelongs
+values (5, 'Adam Weal', 'Skating', 0, 'Team of USA');
+
+insert into athletebelongs
+values (6, 'Alex Grant', 'Skating', 0, 'Team of USA');
+
+insert into athletebelongs
+values (7, 'Jack Robinson', 'Hockey, Skating', 1, 'Team of USA');
 
 create table onlineaudience
 (
@@ -86,6 +116,12 @@ create table competition
 
 insert into competition
 values ('Skating', '2022-02-16 15:30:00', 'Arena 1');
+
+insert into competition
+values ('Hockey', '2022-02-16 12:00:00', 'Arena 5');
+
+insert into competition
+values ('Skiing', '2022-02-18 18:30:00', 'Arena 3');
 
 create table volunteer
 (

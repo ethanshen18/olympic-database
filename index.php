@@ -85,6 +85,191 @@ if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
 if (isset($_POST['addTeam'])) executeQuery('addTeam');
 if (isset($_POST['deleteTeam'])) executeQuery('deleteTeam');
 
+// begin accordian
+echo "
+    <div class='card' id='group'>
+        <div class='card-header'>
+            <ul class='nav nav-pills card-header-pills'>
+                <li class='nav-item'>
+                    <a class='nav-link' data-bs-toggle='collapse' href='#editCountries' role='button' aria-expanded='false'>Edit Countries</a>
+                </li>
+                <li class='nav-item'>
+                    <a class='nav-link' data-bs-toggle='collapse' href='#editTeams' role='button' aria-expanded='false'>Edit Teams</a>
+                </li>
+                <li class='nav-item'>
+                    <a class='nav-link' data-bs-toggle='collapse' href='#editAthletes' role='button' aria-expanded='false'>Edit Athletes</a>
+                </li>
+            </ul>
+        </div>
+        <div class='accordion-group'>
+";
+
+// country queries
+echo "
+    <div class='collapse' id='editCountries' data-bs-parent='#group'>
+        <div class='card text-center border-0'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col'>
+                        <h5 class='card-title'>Add country</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='medal count' name='medalCount'>
+                            </div>
+                            <input type='submit' value='Add' name='addCountry' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Update medal count</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='new medal count' name='medalCount'>
+                            </div>
+                            <input type='submit' value='Update' name='updateMedalCount' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Delete country</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                            </div>
+                            <br><br>
+                            <input type='submit' value='Delete' name='deleteCountry' class='btn btn-primary'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+";
+
+// team queries
+echo "
+    <div class='collapse' id='editTeams' data-bs-parent='#group'>
+        <div class='card text-center border-0'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col'>
+                        <h5 class='card-title'>Add team</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='team name' name='teamname'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='team size' name='teamsize'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='residency building' name='residency'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryname'>
+                            </div>
+                            <input type='submit' value='Add' name='addTeam' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Delete team</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='team name' name='teamname'>
+                            </div>
+                            <br><br>
+                            <br><br>
+                            <br><br>
+                            <input type='submit' value='Delete' name='deleteTeam' class='btn btn-primary'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+";
+
+// athlete queries
+echo "
+    <div class='collapse' id='editAthletes' data-bs-parent='#group'>
+        <div class='card text-center border-0'>
+            <div class='card-body'>
+                <div class='row'>
+                    <div class='col'>
+                        <h5 class='card-title'>Add athlete</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete name' name='athleteName'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='competition' name='athletecompetition'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete medal count' name='athletemedalcount'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='team name' name='athleteteamname'>
+                            </div>
+                            <input type='submit' value='Add' name='addAthletebelongs' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Update medal count</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='new medal count' name='athletemedalcount'>
+                            </div>
+                            <br><br>
+                            <br><br>
+                            <br><br>
+                            <input type='submit' value='Update' name='updateAthleteMedalCount' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Delete athlete</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
+                            </div>
+                            <br><br>
+                            <br><br>
+                            <br><br>
+                            <br><br>
+                            <input type='submit' value='Delete' name='deleteAthelete' class='btn btn-primary'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+";
+
+
+
+
+
+
+// end accordian
+echo "
+        </div>
+    </div>
+    <br>
+";
+
 // display all tables on load
 if (connectToDB()) {
 
@@ -135,165 +320,11 @@ if (connectToDB()) {
     disconnectFromDB();
 }
 
-// country queries
-echo "
-    <div class='card text-center'>
-        <div class='card-header bg-dark text-white'>Country Queries</div>
-        <div class='card-body'>
-            <div class='row'>
-                <div class='col'>
-                    <h5 class='card-title'>Add country</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='medal count' name='medalCount'>
-                        </div>
-                        <input type='submit' value='Add' name='addCountry' class='btn btn-primary'>
-                    </form>
-                </div>
-
-                <div class='col'>
-                    <h5 class='card-title'>Update medal count</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='new medal count' name='medalCount'>
-                        </div>
-                        <input type='submit' value='Update' name='updateMedalCount' class='btn btn-primary'>
-                    </form>
-                </div>
-
-                <div class='col'>
-                    <h5 class='card-title'>Delete country</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='country name' name='countryName'>
-                        </div>
-                        <br><br>
-                        <input type='submit' value='Delete' name='deleteCountry' class='btn btn-primary'>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-";
-
-// athlete queries
-echo "
-    <div class='card text-center'>
-        <div class='card-header bg-dark text-white'>Athlete Queries</div>                   
-        <div class='card-body'>
-            <div class='row'>
-                <div class='col'>
-                    <h5 class='card-title'>Add athlete</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='athlete id' name='athleteid'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='athlete name' name='athleteName'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='competition' name='athletecompetition'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='athlete medal count' name='athletemedalcount'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='teamname' name='athleteteamname'>
-                        </div>
-                        <input type='submit' value='Add' name='addAthletebelongs' class='btn btn-primary'>
-                    </form>
-                </div>
-
-                <div class='col'>
-                    <h5 class='card-title'>Update medal count</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='new medal count' name='athletemedalcount'>
-                        </div>
-                        <br><br>
-                        <br><br>
-                        <br><br>
-                        <input type='submit' value='Update' name='updateAthleteMedalCount' class='btn btn-primary'>
-                    </form>
-                </div>
-
-                <div class='col'>
-                    <h5 class='card-title'>Delete athlete</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
-                        </div>
-                        <br><br>
-                        <br><br>
-                        <br><br>
-                        <br><br>
-                        <input type='submit' value='Delete' name='deleteAthelete' class='btn btn-primary'>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-";
-
-// team queries
-echo "
-    <div class='card text-center'>
-        <div class='card-header bg-dark text-white'>Team Queries</div>                   
-        <div class='card-body'>
-            <div class='row'>
-                <div class='col'>
-                    <h5 class='card-title'>Add Team</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='teamname' name='teamname'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='team size' name='teamsize'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='residency address' name='residency'>
-                        </div>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='Country belongs' name='countryname'>
-                        </div>
-                        <input type='submit' value='Add' name='addTeam' class='btn btn-primary'>
-                    </form>
-                </div>
-
-                <div class='col'>
-                    <h5 class='card-title'>Delete Team</h5>
-                    <form method='POST' action='index.php'>
-                        <div class='form-group'>
-                            <input type='text' class='form-control' placeholder='Team name' name='teamname'>
-                        </div>
-                        <br><br>
-                        <br><br>
-                        <br><br>
-                        <input type='submit' value='Delete' name='deleteTeam' class='btn btn-primary'>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-";
-
-
-
-
-
 // footer
 echo "
             </div>
             <nav class='navbar navbar-dark bg-dark text-white justify-content-center py-5'>© 2022 Group #13</nav>
+            <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p' crossorigin='anonymous'></script>
         </body>
     </html>
 ";
