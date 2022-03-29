@@ -58,7 +58,7 @@ echo "
                 
                 table {
                     font-size: 12px;
-                }            
+                }
             </style>
         </head>
 
@@ -376,6 +376,8 @@ if (connectToDB()) {
 echo "
             </div>
             <nav class='navbar navbar-dark bg-dark text-white justify-content-center py-5'>© 2022 Group #13</nav>
+
+            <!-- Bootstrap JavsScript -->
             <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js' integrity='sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p' crossorigin='anonymous'></script>
         </body>
     </html>
