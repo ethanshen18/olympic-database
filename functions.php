@@ -323,7 +323,7 @@ function aggregation() {
     OCICommit($db_conn);
 }
 
-function nest() {
+function nested() {
     global $db_conn;
 
     $result = executePlainSQL("

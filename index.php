@@ -88,7 +88,7 @@ if (isset($_POST['selection'])) executeQuery('selection');
 if (isset($_POST['projection'])) executeQuery('projection');
 if (isset($_POST['join'])) executeQuery('joinQuery');
 if (isset($_POST['aggregation'])) executeQuery('aggregation');
-if (isset($_POST['nest'])) executeQuery('nest');
+if (isset($_POST['nested'])) executeQuery('nested');
 if (isset($_POST['division'])) executeQuery('division');
 
 // begin accordian
