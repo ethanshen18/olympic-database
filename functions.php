@@ -1,7 +1,6 @@
 <?php
 
-// takes a plain (no bound variables) SQL command and executes it
-function executePlainSQL($cmdstr) { 
+function executeSQL($cmdstr) { 
     global $db_conn, $success;
 
     $statement = OCIParse($db_conn, $cmdstr);
@@ -30,43 +29,6 @@ function executePlainSQL($cmdstr) {
     return $statement;
 }
 
-/* Sometimes the same statement will be executed several times with different values for the variables involved in the query.
-In this case you don't need to create the statement several times. Bound variables cause a statement to only be
-parsed once and you can reuse the statement. This is also very useful in protecting against SQL injection.
-See the sample code below for how this function is used */
-function executeBoundSQL($cmdstr, $list) {
-    global $db_conn, $success;
-    $statement = OCIParse($db_conn, $cmdstr);
-
-    if (!$statement) {
-        $e = OCI_Error($db_conn)['message'];
-        echo "
-            <div class='alert alert-danger' role='alert'>
-                Cannot parse the following command: $cmdstr<br>$e
-            </div>
-        ";
-        $success = False;
-    }
-
-    foreach ($list as $tuple) {
-        foreach ($tuple as $bind => $val) {
-            OCIBindByName($statement, $bind, $val);
-            unset ($val);
-        }
-
-        $r = OCIExecute($statement, OCI_DEFAULT);
-        if (!$r) {
-            $e = OCI_Error($statement)['message'];
-            echo "
-                <div class='alert alert-danger' role='alert'>
-                    Cannot execute the following command: $cmdstr<br>$e
-                </div>
-            ";
-            $success = False;
-        }
-    }
-}
-
 function connectToDB() {
     global $db_conn;
 
@@ -87,7 +49,6 @@ function connectToDB() {
 
 function disconnectFromDB() {
     global $db_conn;
-
     OCILogoff($db_conn);
 }
 
@@ -99,7 +60,7 @@ function resetTables() {
     $queries = explode(';', $file);
     
     foreach ($queries as $query) {
-        executePlainSQL($query);
+        executeSQL($query);
     }
 
     OCICommit($db_conn);
@@ -135,88 +96,77 @@ function printTable($result) {
     echo "</div>";
 }
 
-///////////////////////////////// Query Handlers ////////////////////////////////////////////////////////////
-
 function addCountry() {
     global $db_conn;
-
-    $tuple = array (
-        ":bind1" => $_POST['countryName'],
-        ":bind2" => $_POST['medalCount']
-    );
-
-    $alltuples = array (
-        $tuple
-    );
-
-    executeBoundSQL("insert into country values (:bind1, :bind2)", $alltuples);
+    $countryname = $_POST['countryname'];
+    $medalcount = $_POST['medalcount'];
+    executeSQL("insert into country values ('$countryname', $medalcount)");
     OCICommit($db_conn);
 }
 
-function updateMedalCount() {
+function updateCountry() {
     global $db_conn;
-    executePlainSQL("update country set countrymedalcount='" . $_POST['medalCount'] . "' where countryname='" . $_POST['countryName'] . "'");
+    $countryname = $_POST['countryname'];
+    $medalcount = $_POST['medalcount'];
+    executeSQL("update country set countrymedalcount='$medalcount' where countryname='$countryname'");
     OCICommit($db_conn);
 }
 
 function deleteCountry() {
     global $db_conn;
-    executePlainSQL("delete from country where countryname='" . $_POST['countryName'] . "'");
-    OCICommit($db_conn);
-}
-
-function addAthlete() {
-    global $db_conn;
-
-    $tuple = array(
-        ":bind1" => $_POST['athleteid'],
-        ":bind2" => $_POST['athleteName'],
-        ":bind3" => $_POST['athleteAge'],
-        ":bind4" => $_POST['athletemedalcount'],
-        ":bind5" => $_POST['athleteteamname']
-    );
-
-    $alltuples = array (
-        $tuple
-    );
-
-    executeBoundSQL("insert into athletebelongs values (:bind1, :bind2, :bind3, :bind4, :bind5)", $alltuples);
-    OCICommit($db_conn);
-}
-
-function updateAthleteMedalCount() {
-    global $db_conn;
-    executePlainSQL("update athletebelongs set medalcount='" . $_POST['athletemedalcount'] . "' where athleteid='" . $_POST['athleteid'] . "'");
-    OCICommit($db_conn);
-}
-
-function deleteAthelete() {
-    global $db_conn;
-    executePlainSQL("delete from athletebelongs where athleteid='" . $_POST['athleteid'] . "'");
+    $countryname = $_POST['countryname'];
+    executeSQL("delete from country where countryname='$countryname'");
     OCICommit($db_conn);
 }
 
 function addTeam() {
     global $db_conn;
+    $teamname = $_POST['teamname'];
+    $teamsize = $_POST['teamsize'];
+    $residency = $_POST['residency'];
+    $countryname = $_POST['countryname'];
+    executeSQL("insert into team values ('$teamname', $teamsize, '$residency', '$countryname')");
+    OCICommit($db_conn);
+}
 
-    $tuple = array(
-        ":bind1" => $_POST['teamname'],
-        ":bind2" => $_POST['teamsize'],
-        ":bind3" => $_POST['residency'],
-        ":bind4" => $_POST['countryname']
-    );
-
-    $alltuples = array (
-        $tuple
-    );
-
-    executeBoundSQL("insert into team values (:bind1, :bind2, :bind3, :bind4)", $alltuples);
+function updateTeam() {
+    global $db_conn;
+    $teamname = $_POST['teamname'];
+    $residency = $_POST['residency'];
+    executeSQL("update team set residency='$residency' where teamname='$teamname'");
     OCICommit($db_conn);
 }
 
 function deleteTeam() {
     global $db_conn;
-    executePlainSQL("delete from team where teamname='" . $_POST['teamname'] . "'");
+    $teamname = $_POST['teamname'];
+    executeSQL("delete from team where teamname='$teamname'");
+    OCICommit($db_conn);
+}
+
+function addAthlete() {
+    global $db_conn;
+    $athleteid = $_POST['athleteid'];
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $medalcount = $_POST['medalcount'];
+    $teamname = $_POST['teamname'];
+    executeSQL("insert into athletebelongs values ($athleteid, '$name', $age, $medalcount, '$teamname')");
+    OCICommit($db_conn);
+}
+
+function updateAthlete() {
+    global $db_conn;
+    $athleteid = $_POST['athleteid'];
+    $medalcount = $_POST['medalcount'];
+    executeSQL("update athletebelongs set medalcount='$medalcount' where athleteid='$athleteid'");
+    OCICommit($db_conn);
+}
+
+function deleteAthelete() {
+    global $db_conn;
+    $athleteid = $_POST['athleteid'];
+    executeSQL("delete from athletebelongs where athleteid='$athleteid'");
     OCICommit($db_conn);
 }
 
@@ -225,12 +175,13 @@ function selection() {
 
     $medalCount = $_POST['medalCount'];
 
-    $result = executePlainSQL("
+    $result = executeSQL("
         select * 
         from athletebelongs 
         where medalcount >= $medalCount
     ");
 
+    // print query results
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: athletes with at least $medalCount medals</div>
@@ -256,8 +207,9 @@ function projection() {
     if (isset($_POST['medalcount'])) $selection .= ", medalcount";
     if (isset($_POST['teamname'])) $selection .= ", teamname";
 
-    $result = executePlainSQL("select $selection from athletebelongs");
+    $result = executeSQL("select $selection from athletebelongs");
 
+    // print query results
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: athlete details </div>
@@ -278,12 +230,13 @@ function joinQuery() {
 
     $name = $_POST['name'];
 
-    $result = executePlainSQL("
+    $result = executeSQL("
         select athletebelongs.name, team.residency 
         from athletebelongs, team 
         where athletebelongs.teamname = team.teamname and athletebelongs.name like '%$name%'
     ");
 
+    // print query results
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: $name's residency </div>
@@ -302,12 +255,13 @@ function joinQuery() {
 function aggregation() {
     global $db_conn;
 
-    $result = executePlainSQL('
+    $result = executeSQL('
         select max(medalcount) as "Top individual medal count", teamname 
         from athletebelongs 
         group by teamname
     ');
 
+    // print query results
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: the maxiumum individual medal count from each team</div>
@@ -326,10 +280,11 @@ function aggregation() {
 function nested() {
     global $db_conn;
 
-    $result = executePlainSQL("
+    $result = executeSQL("
         // TODO
     ");
 
+    // print query results
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: the average age of the youngest athletes from each team </div>
@@ -348,7 +303,7 @@ function nested() {
 function division() {
     global $db_conn;
 
-    $result = executePlainSQL("
+    $result = executeSQL("
         select * 
         from athletebelongs A 
         where not exists (
@@ -362,6 +317,7 @@ function division() {
         )
     ");
 
+    // print query results
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: athletes who participate in every competition </div>
@@ -377,7 +333,6 @@ function division() {
     OCICommit($db_conn);
 }
 
-///////////////////////////////// End Handlers ////////////////////////////////////////////////////////////
 function executeQuery($func) {
     if (connectToDB()) {
         $func();

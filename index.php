@@ -77,13 +77,14 @@ echo "
 // GET and POST endpoints
 if (isset($_POST['reset'])) executeQuery('resetTables');
 if (isset($_POST['addCountry'])) executeQuery('addCountry');
-if (isset($_POST['updateMedalCount'])) executeQuery('updateMedalCount');
+if (isset($_POST['updateCountry'])) executeQuery('updateCountry');
 if (isset($_POST['deleteCountry'])) executeQuery('deleteCountry');
-if (isset($_POST['addAthlete'])) executeQuery('addAthlete');
-if (isset($_POST['updateAthleteMedalCount'])) executeQuery('updateAthleteMedalCount');
-if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
 if (isset($_POST['addTeam'])) executeQuery('addTeam');
+if (isset($_POST['updateTeam'])) executeQuery('updateTeam');
 if (isset($_POST['deleteTeam'])) executeQuery('deleteTeam');
+if (isset($_POST['addAthlete'])) executeQuery('addAthlete');
+if (isset($_POST['updateAthlete'])) executeQuery('updateAthlete');
+if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
 if (isset($_POST['selection'])) executeQuery('selection');
 if (isset($_POST['projection'])) executeQuery('projection');
 if (isset($_POST['join'])) executeQuery('joinQuery');
@@ -123,10 +124,10 @@ echo "
                         <h5 class='card-title'>Add country</h5>
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryname'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='medal count' name='medalCount'>
+                                <input type='text' class='form-control' placeholder='medal count' name='medalcount'>
                             </div>
                             <input type='submit' value='Add' name='addCountry' class='btn btn-primary'>
                         </form>
@@ -136,12 +137,12 @@ echo "
                         <h5 class='card-title'>Update medal count</h5>
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryname'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='new medal count' name='medalCount'>
+                                <input type='text' class='form-control' placeholder='new medal count' name='medalcount'>
                             </div>
-                            <input type='submit' value='Update' name='updateMedalCount' class='btn btn-primary'>
+                            <input type='submit' value='Update' name='updateCountry' class='btn btn-primary'>
                         </form>
                     </div>
 
@@ -149,7 +150,7 @@ echo "
                         <h5 class='card-title'>Delete country</h5>
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='country name' name='countryName'>
+                                <input type='text' class='form-control' placeholder='country name' name='countryname'>
                             </div>
                             <input type='submit' value='Delete' name='deleteCountry' class='btn btn-primary'>
                         </form>
@@ -186,6 +187,19 @@ echo "
                     </div>
 
                     <div class='col'>
+                        <h5 class='card-title'>Update residency</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='team name' name='teamname'>
+                            </div>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='residency' name='residency'>
+                            </div>
+                            <input type='submit' value='Update' name='updateTeam' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
                         <h5 class='card-title'>Delete team</h5>
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
@@ -213,16 +227,16 @@ echo "
                                 <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='name' name='athleteName'>
+                                <input type='text' class='form-control' placeholder='name' name='name'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='age' name='athleteAge'>
+                                <input type='text' class='form-control' placeholder='age' name='age'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='medal count' name='athletemedalcount'>
+                                <input type='text' class='form-control' placeholder='medal count' name='medalcount'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='team name' name='athleteteamname'>
+                                <input type='text' class='form-control' placeholder='team name' name='teamname'>
                             </div>
                             <input type='submit' value='Add' name='addAthlete' class='btn btn-primary'>
                         </form>
@@ -235,9 +249,9 @@ echo "
                                 <input type='text' class='form-control' placeholder='athlete ID' name='athleteid'>
                             </div>
                             <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='new medal count' name='athletemedalcount'>
+                                <input type='text' class='form-control' placeholder='new medal count' name='medalcount'>
                             </div>
-                            <input type='submit' value='Update' name='updateAthleteMedalCount' class='btn btn-primary'>
+                            <input type='submit' value='Update' name='updateAthlete' class='btn btn-primary'>
                         </form>
                     </div>
 
@@ -287,20 +301,20 @@ echo "
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
                                 <div class='form-check form-check-inline'>
-                                    <input type='checkbox' class='form-check-input' id='projectionName' name='name'>
-                                    <label class='form-check-label' for='projectionName'>Name</label>
+                                    <input type='checkbox' class='form-check-input' id='check-1' name='name'>
+                                    <label class='form-check-label' for='check-1'>Name</label>
                                 </div>
                                 <div class='form-check form-check-inline'>
-                                    <input type='checkbox' class='form-check-input' id='projectionAge' name='age'>
-                                    <label class='form-check-label' for='projectionAge'>Age</label>
+                                    <input type='checkbox' class='form-check-input' id='check-2' name='age'>
+                                    <label class='form-check-label' for='check-2'>Age</label>
                                 </div>
                                 <div class='form-check form-check-inline'>
-                                    <input type='checkbox' class='form-check-input' id='projectionMedalCount' name='medalcount'>
-                                    <label class='form-check-label' for='projectionMedalCount'>Medal</label>
+                                    <input type='checkbox' class='form-check-input' id='check-3' name='medalcount'>
+                                    <label class='form-check-label' for='check-3'>Medal</label>
                                 </div>
                                 <div class='form-check form-check-inline'>
-                                    <input type='checkbox' class='form-check-input' id='projectionTeamName' name='teamname'>
-                                    <label class='form-check-label' for='projectionTeamName'>Team</label>
+                                    <input type='checkbox' class='form-check-input' id='check-4' name='teamname'>
+                                    <label class='form-check-label' for='check-4'>Team</label>
                                 </div>
                             </div>
                             <input type='submit' value='Show' name='projection' class='btn btn-primary'>
@@ -339,7 +353,7 @@ if (connectToDB()) {
     echo "<div class='card-columns'>";
 
     foreach ($tableNames as $key => $tableName) {
-        $result = executePlainSQL("select * from $key");
+        $result = executeSQL("select * from $key");
         echo "
             <div class='card'>
                 <div class='card-header bg-dark text-white'>$tableName</div>
