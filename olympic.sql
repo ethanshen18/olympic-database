@@ -67,13 +67,13 @@ create table athletebelongs
 );
 
 insert into athletebelongs
-values (1, 'Jack McBain', 18, 'Hockey, Skating', 2, 'Team of Canada');
+values (1, 'Jack McBain', 18, 'Hockey', 2, 'Team of Canada');
 
 insert into athletebelongs
 values (2, 'Kent Johnson', 20, 'Hockey', 0, 'Team of Canada');
 
 insert into athletebelongs
-values (3, 'Adam Tambellini', 19, 'Hockey, Skating', 1, 'Team of Canada');
+values (3, 'Adam Tambellini', 19, 'Skating', 1, 'Team of Canada');
 
 insert into athletebelongs
 values (4, 'Landon Ferraro', 24, 'Hockey', 3, 'Team of USA');
@@ -85,7 +85,7 @@ insert into athletebelongs
 values (6, 'Alex Grant', 21, 'Skating', 0, 'Team of USA');
 
 insert into athletebelongs
-values (7, 'Jack Robinson', 25, 'Hockey, Skating', 1, 'Team of USA');
+values (7, 'Jack Robinson', 25, 'Hockey', 1, 'Team of USA');
 
 create table onlineaudience
 (
@@ -133,7 +133,7 @@ create table volunteer
 );
 
 insert into volunteer
-values (1, 'Jason Bourne', 'Guide atheletes to locker rooms');
+values (1, 'John Doe', 'Guide atheletes to locker rooms');
 
 create table mediastreamingplatform
 (
@@ -167,6 +167,12 @@ create table represents
 
 insert into represents
 values ('Team of Canada', 'Canada');
+
+insert into represents
+values ('Team of USA', 'USA');
+
+insert into represents
+values ('Team of Germany', 'Germany');
 
 create table attends
 (

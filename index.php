@@ -266,7 +266,7 @@ echo "
             <div class='card-body'>
                 <div class='row'>
                     <div class='col'>
-                        <h5 class='card-title'>Find athletes by medal count</h5>
+                        <h5 class='card-title'>Athletes by medal count</h5>
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
                                 <input type='text' class='form-control' placeholder='minimum medal count' name='medalCount'>
@@ -276,62 +276,7 @@ echo "
                     </div>
 
                     <div class='col'>
-                        <h5 class='card-title'>Find athlete residency</h5>
-                        <form method='POST' action='index.php'>
-                            <div class='form-group'>
-                                <input type='text' class='form-control' placeholder='athlete name' name='name'>
-                            </div>
-                            <input type='submit' value='Find' name='join' class='btn btn-primary'>
-                        </form>
-                    </div>
-
-                    <div class='col'>
-                        <h5 class='card-title'>Find top individual medal count by team</h5>
-                        <form method='POST' action='index.php'>
-                            <input type='submit' value='Find' name='aggregation' class='btn btn-primary'>
-                        </form>
-                    </div>
-                </div>
-
-                <br><br>
-
-                <div class='row'>
-                    <div class='col'>
-                        <h5 class='card-title'>Find average age of youngest athletes by team</h5>
-                        <form method='POST' action='index.php'>
-                            <input type='submit' value='Find' name='nested' class='btn btn-primary'>
-                        </form>
-                    </div>
-
-                    <div class='col'>
-                        <h5 class='card-title'>Show athlete details</h5>
-                        <form method='POST' action='index.php'>
-                            <div class='form-group'>
-                                <input type='checkbox' class='form-check-input' id='projectionName' name='name'>
-                                <label class='form-check-label' for='projectionName'>Athlete Name</label>
-                            </div>
-                            <div class='form-group'>
-                                <input type='checkbox' class='form-check-input' id='projectionAge' name='age'>
-                                <label class='form-check-label' for='projectionAge'>Athlete Age</label>
-                            </div>
-                            <div class='form-group'>
-                                <input type='checkbox' class='form-check-input' id='projectionCompetition' name='competition'>
-                                <label class='form-check-label' for='projectionCompetition'>Competition</label>
-                            </div>
-                            <div class='form-group'>
-                                <input type='checkbox' class='form-check-input' id='projectionMedalCount' name='medalCount'>
-                                <label class='form-check-label' for='projectionMedalCount'>Medal Count</label>
-                            </div>
-                            <div class='form-group'>
-                                <input type='checkbox' class='form-check-input' id='projectionTeamName' name='team'>
-                                <label class='form-check-label' for='projectionTeamName'>Team Name</label>
-                            </div>
-                            <input type='submit' value='Show' name='projection' class='btn btn-primary'>
-                        </form>
-                    </div>
-
-                    <div class='col'>
-                        <h5 class='card-title'>Find athlete by competitions</h5>
+                        <h5 class='card-title'>Athletes by competitions</h5>
                         <form method='POST' action='index.php'>
                             <div class='form-group'>
                                 <input type='checkbox' class='form-check-input' id='divisionSkating' name='skating'>
@@ -346,6 +291,56 @@ echo "
                                 <label class='form-check-label' for='divisionSkiing'>Skiing</label>
                             </div>
                             <input type='submit' value='Find' name='division' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Find athlete residency</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='text' class='form-control' placeholder='athlete name' name='name'>
+                            </div>
+                            <input type='submit' value='Find' name='join' class='btn btn-primary'>
+                        </form>
+                    </div>
+
+                    <div class='col'>
+                        <h5 class='card-title'>Show athlete details</h5>
+                        <form method='POST' action='index.php'>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionName' name='name'>
+                                <label class='form-check-label' for='projectionName'>Name</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionAge' name='age'>
+                                <label class='form-check-label' for='projectionAge'>Age</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionCompetition' name='competition'>
+                                <label class='form-check-label' for='projectionCompetition'>Competition</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionMedalCount' name='medalcount'>
+                                <label class='form-check-label' for='projectionMedalCount'>Medal Count</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionTeamName' name='teamname'>
+                                <label class='form-check-label' for='projectionTeamName'>Team</label>
+                            </div>
+                            <input type='submit' value='Show' name='projection' class='btn btn-primary'>
+                        </form>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <div class='row'>
+                    <div class='col'>
+                        <h5 class='card-title'>Additional queries</h5>
+                        <form method='POST' action='index.php'>
+                            <input type='submit' value='Find the maxiumum individual medal count from each team' name='aggregation' class='btn btn-primary'>
+                            <br><br>
+                            <input type='submit' value='Find the average age of the youngest athletes from each team' name='nested' class='btn btn-primary'>
                         </form>
                     </div>
                 </div>

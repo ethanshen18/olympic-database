@@ -226,7 +226,12 @@ function selection() {
 
     $medalCount = $_POST['medalCount'];
 
-    $result = executePlainSQL("select * from athletebelongs where medalcount >= $medalCount");
+    $result = executePlainSQL("
+        select * 
+        from athletebelongs 
+        where medalcount >= $medalCount
+    ");
+
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: athletes with at least $medalCount medals</div>
@@ -242,20 +247,45 @@ function selection() {
     OCICommit($db_conn);
 }
 
-// function projection() {
-//     global $db_conn;
+function projection() {
+    global $db_conn;
 
-//     $result = executePlainSQL("");
+    $selection = "athleteid";
 
-//     OCICommit($db_conn);
-// }
+    if (isset($_POST['name'])) $selection .= ", name";
+    if (isset($_POST['age'])) $selection .= ", age";
+    if (isset($_POST['competition'])) $selection .= ", competition";
+    if (isset($_POST['medalcount'])) $selection .= ", medalcount";
+    if (isset($_POST['teamname'])) $selection .= ", teamname";
+
+    $result = executePlainSQL("select $selection from athletebelongs");
+
+    echo "
+        <div class='card'>
+            <div class='card-header bg-success text-white'>Search result: athlete details </div>
+            <div class='card-body'>
+    ";
+    printTable($result);
+    echo "
+            </div>
+        </div>
+        <br>
+    ";
+
+    OCICommit($db_conn);
+}
 
 function joinQuery() {
     global $db_conn;
 
     $name = $_POST['name'];
 
-    $result = executePlainSQL("select athletebelongs.name, team.residency from athletebelongs, team where athletebelongs.teamname = team.teamname and athletebelongs.name like '%$name%'");
+    $result = executePlainSQL("
+        select athletebelongs.name, team.residency 
+        from athletebelongs, team 
+        where athletebelongs.teamname = team.teamname and athletebelongs.name like '%$name%'
+    ");
+
     echo "
         <div class='card'>
             <div class='card-header bg-success text-white'>Search result: $name's residency </div>
@@ -274,10 +304,15 @@ function joinQuery() {
 function aggregation() {
     global $db_conn;
 
-    $result = executePlainSQL('select max(medalcount), teamname from athletebelongs group by teamname');
+    $result = executePlainSQL('
+        select max(medalcount) as "Top individual medal count", teamname 
+        from athletebelongs 
+        group by teamname
+    ');
+
     echo "
         <div class='card'>
-            <div class='card-header bg-success text-white'>Search result: top individual medal count from each team</div>
+            <div class='card-header bg-success text-white'>Search result: the maxiumum individual medal count from each team</div>
             <div class='card-body'>
     ";
     printTable($result);
@@ -290,21 +325,57 @@ function aggregation() {
     OCICommit($db_conn);
 }
 
-// function nest() {
-//     global $db_conn;
+function nest() {
+    global $db_conn;
 
-//     $result = executePlainSQL("");
+    $result = executePlainSQL("
+        // TODO
+    ");
 
-//     OCICommit($db_conn);
-// }
+    echo "
+        <div class='card'>
+            <div class='card-header bg-success text-white'>Search result: the average age of the youngest athletes from each team </div>
+            <div class='card-body'>
+    ";
+    printTable($result);
+    echo "
+            </div>
+        </div>
+        <br>
+    ";
 
-// function division() {
-//     global $db_conn;
+    OCICommit($db_conn);
+}
 
-//     $result = executePlainSQL("");
+function division() {
+    global $db_conn;
 
-//     OCICommit($db_conn);
-// }
+    $skating = false;
+    $hocket = false;
+    $skiing = false;
+
+    if (isset($_POST['skating'])) $skating = true;
+    if (isset($_POST['hockey'])) $hocket = true;
+    if (isset($_POST['skiing'])) $skiing = true;
+
+    $result = executePlainSQL("
+        // TODO
+    ");
+
+    echo "
+        <div class='card'>
+            <div class='card-header bg-success text-white'>Search result: athlete by competitions </div>
+            <div class='card-body'>
+    ";
+    printTable($result);
+    echo "
+            </div>
+        </div>
+        <br>
+    ";
+
+    OCICommit($db_conn);
+}
 
 ///////////////////////////////// End Handlers ////////////////////////////////////////////////////////////
 function executeQuery($func) {
