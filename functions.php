@@ -172,16 +172,15 @@ function addAthlete() {
         ":bind1" => $_POST['athleteid'],
         ":bind2" => $_POST['athleteName'],
         ":bind3" => $_POST['athleteAge'],
-        ":bind4" => $_POST['athletecompetition'],
-        ":bind5" => $_POST['athletemedalcount'],
-        ":bind6" => $_POST['athleteteamname']
+        ":bind4" => $_POST['athletemedalcount'],
+        ":bind5" => $_POST['athleteteamname']
     );
 
     $alltuples = array (
         $tuple
     );
 
-    executeBoundSQL("insert into athletebelongs values (:bind1, :bind2, :bind3, :bind4, :bind5, :bind6)", $alltuples);
+    executeBoundSQL("insert into athletebelongs values (:bind1, :bind2, :bind3, :bind4, :bind5)", $alltuples);
     OCICommit($db_conn);
 }
 
@@ -254,7 +253,6 @@ function projection() {
 
     if (isset($_POST['name'])) $selection .= ", name";
     if (isset($_POST['age'])) $selection .= ", age";
-    if (isset($_POST['competition'])) $selection .= ", competition";
     if (isset($_POST['medalcount'])) $selection .= ", medalcount";
     if (isset($_POST['teamname'])) $selection .= ", teamname";
 
@@ -350,21 +348,23 @@ function nest() {
 function division() {
     global $db_conn;
 
-    $skating = false;
-    $hocket = false;
-    $skiing = false;
-
-    if (isset($_POST['skating'])) $skating = true;
-    if (isset($_POST['hockey'])) $hocket = true;
-    if (isset($_POST['skiing'])) $skiing = true;
-
     $result = executePlainSQL("
-        // TODO
+        select * 
+        from athletebelongs A 
+        where not exists (
+            select competitionname 
+            from competition B
+            where not exists (
+                select C.competitionname 
+                from competes C 
+                where C.athleteid = A.athleteid and B.competitionname = C.competitionname
+            )
+        )
     ");
 
     echo "
         <div class='card'>
-            <div class='card-header bg-success text-white'>Search result: athlete by competitions </div>
+            <div class='card-header bg-success text-white'>Search result: athletes who participate in every competition </div>
             <div class='card-body'>
     ";
     printTable($result);
