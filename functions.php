@@ -105,6 +105,36 @@ function resetTables() {
     OCICommit($db_conn);
 }
 
+// print query result as table
+function printTable($result) {
+    $numCols = oci_num_fields($result);
+
+    echo "<div class='table-responsive'><table class='table table-hover text-left'>";
+
+    // print table header
+    echo "<thead><tr>";
+    for ($i = 1; $i <= $numCols; $i++) {
+        $col_name = oci_field_name($result, $i);
+        echo "<th scope='col'>$col_name</th>";
+    }
+    echo "</tr></thead>";
+
+    // print table content
+    echo "<tbody>";
+    while (($row = oci_fetch_row($result)) != false) {
+        echo "<tr>";
+        for ($i = 0; $i < $numCols; $i++) {
+            echo "<td>";
+            echo $row[$i];
+            echo "</td>";
+        }
+        echo "</tr>";
+    }
+    echo "<tbody>";
+    echo "</table>";
+    echo "</div>";
+}
+
 ///////////////////////////////// Query Handlers ////////////////////////////////////////////////////////////
 
 function addCountry() {
@@ -157,7 +187,7 @@ function addAthlete() {
 
 function updateAthleteMedalCount() {
     global $db_conn;
-    executePlainSQL("update athletebelongs set MEDALCOUNT='" . $_POST['athleteMedalCount'] . "' where athleteid='" . $_POST['athleteid'] . "'");
+    executePlainSQL("update athletebelongs set medalcount='" . $_POST['athletemedalcount'] . "' where athleteid='" . $_POST['athleteid'] . "'");
     OCICommit($db_conn);
 }
 
@@ -191,12 +221,90 @@ function deleteTeam() {
     OCICommit($db_conn);
 }
 
+function selection() {
+    global $db_conn;
 
+    $medalCount = $_POST['medalCount'];
 
+    $result = executePlainSQL("select * from athletebelongs where medalcount >= $medalCount");
+    echo "
+        <div class='card'>
+            <div class='card-header bg-success text-white'>Search result: athletes with at least $medalCount medals</div>
+            <div class='card-body'>
+    ";
+    printTable($result);
+    echo "
+            </div>
+        </div>
+        <br>
+    ";
 
+    OCICommit($db_conn);
+}
 
+// function projection() {
+//     global $db_conn;
 
+//     $result = executePlainSQL("");
 
+//     OCICommit($db_conn);
+// }
+
+function joinQuery() {
+    global $db_conn;
+
+    $name = $_POST['name'];
+
+    $result = executePlainSQL("select athletebelongs.name, team.residency from athletebelongs, team where athletebelongs.teamname = team.teamname and athletebelongs.name like '%$name%'");
+    echo "
+        <div class='card'>
+            <div class='card-header bg-success text-white'>Search result: $name's residency </div>
+            <div class='card-body'>
+    ";
+    printTable($result);
+    echo "
+            </div>
+        </div>
+        <br>
+    ";
+
+    OCICommit($db_conn);
+}
+
+function aggregation() {
+    global $db_conn;
+
+    $result = executePlainSQL('select max(medalcount), teamname from athletebelongs group by teamname');
+    echo "
+        <div class='card'>
+            <div class='card-header bg-success text-white'>Search result: top individual medal count from each team</div>
+            <div class='card-body'>
+    ";
+    printTable($result);
+    echo "
+            </div>
+        </div>
+        <br>
+    ";
+
+    OCICommit($db_conn);
+}
+
+// function nest() {
+//     global $db_conn;
+
+//     $result = executePlainSQL("");
+
+//     OCICommit($db_conn);
+// }
+
+// function division() {
+//     global $db_conn;
+
+//     $result = executePlainSQL("");
+
+//     OCICommit($db_conn);
+// }
 
 ///////////////////////////////// End Handlers ////////////////////////////////////////////////////////////
 function executeQuery($func) {

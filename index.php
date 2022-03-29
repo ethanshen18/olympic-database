@@ -84,6 +84,12 @@ if (isset($_POST['updateAthleteMedalCount'])) executeQuery('updateAthleteMedalCo
 if (isset($_POST['deleteAthelete'])) executeQuery('deleteAthelete');
 if (isset($_POST['addTeam'])) executeQuery('addTeam');
 if (isset($_POST['deleteTeam'])) executeQuery('deleteTeam');
+if (isset($_POST['selection'])) executeQuery('selection');
+if (isset($_POST['projection'])) executeQuery('projection');
+if (isset($_POST['join'])) executeQuery('joinQuery');
+if (isset($_POST['aggregation'])) executeQuery('aggregation');
+if (isset($_POST['nest'])) executeQuery('nest');
+if (isset($_POST['division'])) executeQuery('division');
 
 // begin accordian
 echo "
@@ -280,7 +286,7 @@ echo "
                     </div>
 
                     <div class='col'>
-                        <h5 class='card-title'>Find top athletes by country</h5>
+                        <h5 class='card-title'>Find top individual medal count by team</h5>
                         <form method='POST' action='index.php'>
                             <input type='submit' value='Find' name='aggregation' class='btn btn-primary'>
                         </form>
@@ -291,7 +297,7 @@ echo "
 
                 <div class='row'>
                     <div class='col'>
-                        <h5 class='card-title'>Find average  youngest athlete age by country</h5>
+                        <h5 class='card-title'>Find average age of youngest athletes by team</h5>
                         <form method='POST' action='index.php'>
                             <input type='submit' value='Find' name='nested' class='btn btn-primary'>
                         </form>
@@ -303,6 +309,10 @@ echo "
                             <div class='form-group'>
                                 <input type='checkbox' class='form-check-input' id='projectionName' name='name'>
                                 <label class='form-check-label' for='projectionName'>Athlete Name</label>
+                            </div>
+                            <div class='form-group'>
+                                <input type='checkbox' class='form-check-input' id='projectionAge' name='age'>
+                                <label class='form-check-label' for='projectionAge'>Athlete Age</label>
                             </div>
                             <div class='form-group'>
                                 <input type='checkbox' class='form-check-input' id='projectionCompetition' name='competition'>
@@ -353,46 +363,20 @@ echo "
 
 // display all tables on load
 if (connectToDB()) {
-
     echo "<div class='card-columns'>";
 
     foreach ($tableNames as $key => $tableName) {
-
         $result = executePlainSQL("select * from $key");
-        $numCols = oci_num_fields($result);
-
         echo "
             <div class='card'>
                 <div class='card-header bg-dark text-white'>$tableName</div>
                 <div class='card-body'>
         ";
-
-        echo "<div class='table-responsive'><table class='table table-hover text-left'>";
-
-        // print table header
-        echo "<thead><tr>";
-        for ($i = 1; $i <= $numCols; $i++) {
-            $col_name = oci_field_name($result, $i);
-            echo "<th scope='col'>$col_name</th>";
-        }
-        echo "</tr></thead>";
-
-        // print table content
-        echo "<tbody>";
-        while (($row = oci_fetch_row($result)) != false) {
-            echo "<tr>";
-            for ($i = 0; $i < $numCols; $i++) {
-                echo "<td>";
-                echo $row[$i];
-                echo "</td>";
-            }
-            echo "</tr>";
-        }
-        echo "<tbody>";
-        echo "</table>";
-        echo "</div>";
-        echo "</div>";
-        echo "</div>";
+        printTable($result);
+        echo "
+                </div>
+            </div>
+        ";
     }
 
     echo "</div>";
