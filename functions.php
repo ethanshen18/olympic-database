@@ -280,9 +280,15 @@ function aggregation() {
 function nested() {
     global $db_conn;
 
-    $result = executeSQL("
-        // TODO
-    ");
+    $result = executeSQL('
+    WITH temp(age) as(
+        SELECT min(age)
+        FROM athletebelongs, team
+        WHERE athletebelongs.teamname = team.teamname
+        GROUP BY team.teamname)
+        SELECT avg(age) as "Average minimum age overall teams"
+        FROM temp
+    ');
 
     // print query results
     echo "
