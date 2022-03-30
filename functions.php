@@ -286,7 +286,7 @@ function nested() {
         FROM athletebelongs, team
         WHERE athletebelongs.teamname = team.teamname
         GROUP BY team.teamname)
-        SELECT avg(age) as "Average minimum age overall teams"
+        SELECT avg(age) as "Average minimum age"
         FROM temp
     ');
 
