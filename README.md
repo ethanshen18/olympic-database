@@ -4,9 +4,47 @@
 
 This is a PHP based web application that displays an instance of our SQL Olympic Games database. It allows users to view the entire database at a glance and make edits by using the given HTML forms. User will be able to see the updates they make instantaneously. 
 
-## Add Credential
+## Supported SQL Queries
 
-In order to connect to the database, users need to create a new file called credential.php and specify their Oracle database username and password using the sample file below. 
+### Insert Operation
+
+User can insert new countries, teams and athletes by submitting a form with all required attributes. 
+
+### Delete Operation
+
+User can delete countries, teams and athletes with their primary key. 
+
+### Update Operation
+
+User can updated the medal count of countries and athletes, and update the residency of teams
+
+### Selection
+
+User can search for athletes who has a certain number of medals. 
+
+### Projection
+
+Users can choose 1 - 4 attributes that they are interested to see for all athletes.
+
+### Join
+
+User can search for the residency of any athletes. 
+
+### Aggregation
+
+User can find the maximum individual medal count from each team. 
+
+### Nested Aggregation with Group By
+
+User can find the average age of the youngest athletes from each team. 
+
+### Division
+
+User can find athletes who participate in every competition. 
+
+## Database Connection
+
+In order to connect to the database, users need to create a new file in the root directory and name it `credential.php`. Then enter their Oracle database username and password according to the example below. 
 
 ```
 <?php
