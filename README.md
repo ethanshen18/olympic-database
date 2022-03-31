@@ -16,7 +16,7 @@ Users can delete countries, teams and athletes with their primary key.
 
 ### Update Operation
 
-Users can updated the medal count of countries and athletes, and update the residency of teams
+Users can updated the medal count of countries and athletes, and update the residency of teams. 
 
 ### Selection
 
