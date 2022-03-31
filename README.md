@@ -8,19 +8,19 @@ This is a PHP based web application that displays an instance of our SQL Olympic
 
 ### Insert Operation
 
-User can insert new countries, teams and athletes by submitting a form with all required attributes. 
+Users can insert new countries, teams and athletes by submitting a form with all required attributes. 
 
 ### Delete Operation
 
-User can delete countries, teams and athletes with their primary key. 
+Users can delete countries, teams and athletes with their primary key. 
 
 ### Update Operation
 
-User can updated the medal count of countries and athletes, and update the residency of teams
+Users can updated the medal count of countries and athletes, and update the residency of teams
 
 ### Selection
 
-User can search for athletes who has a certain number of medals. 
+Users can search for athletes who have a certain number of medals. 
 
 ### Projection
 
@@ -28,19 +28,19 @@ Users can choose 1 - 4 attributes that they are interested to see for all athlet
 
 ### Join
 
-User can search for the residency of any athletes. 
+Users can search for the residency of any athletes. 
 
 ### Aggregation
 
-User can find the maximum individual medal count from each team. 
+Users can find the maximum individual medal count from each team. 
 
 ### Nested Aggregation with Group By
 
-User can find the average age of the youngest athletes from each team. 
+Users can find the average age of the youngest athletes from each team. 
 
 ### Division
 
-User can find athletes who participate in every competition. 
+Users can find athletes who participate in every competition. 
 
 ## Database Connection
 
